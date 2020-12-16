@@ -1,0 +1,12 @@
+<emr>
+<physician>Connor Gilbert M.D.</physician>
+<hospital>Cleveland Clinic</hospital>
+<department>Department of Epidimeology</department>
+<date>2012-02-11</date>
+<patient>John Jones</patient>
+<body>
+    <complication> Patient came complaining of soreness and knee pain.</complication>
+    <comborbidities> Diabetes, coronary artery disease, hyperlipidemia, gout</comorbidities>
+    <medication> Administered hydroxychloroquine 15 mg </medication>
+</body>
+</emr>

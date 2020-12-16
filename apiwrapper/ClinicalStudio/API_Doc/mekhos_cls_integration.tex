@@ -1,0 +1,344 @@
+\documentclass[12pt]{article}
+\parindent=.25in
+
+\setlength{\oddsidemargin}{0pt}
+\setlength{\textwidth}{440pt}
+\setlength{\topmargin}{0in}
+
+%\usepackage{lmodern}
+\usepackage{xspace}
+\usepackage[protrusion=true,expansion=true]{microtype}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{latexsym}
+\usepackage[center]{subfigure}
+\usepackage{epsfig}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+% Inline bibliographies
+\usepackage{filecontents}
+% Algorithm environment
+\usepackage{algorithmicx,algpseudocode,algorithm}
+% Diagrams and figures in TikZ
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\newcommand{\marginrk}[1]{\marginpar{\tiny#1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{example}[theorem]{Example}
+
+\newcommand{\noi}{{\noindent}}
+\newcommand{\ms}{{\medskip}}
+\newcommand{\msni}{{\medskip \noindent}}
+
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\calc}{{\cal C}}
+\newcommand{\cald}{{\cal D}}
+\newcommand{\calh}{{\cal H}}
+\newcommand{\cala}{{\cal A}}
+
+\newcommand{\sign}{\mathrm{sign}}
+\newcommand{\poly}{\mathrm{poly}}
+\newcommand{\size}{\mathrm{size}}
+\newcommand{\depth}{\mathrm{depth}} 
+
+%% New stuff
+% Shortcuts
+\newcommand{\eps}{\ensuremath{\epsilon}\xspace}
+\newcommand{\Algo}{\ensuremath{\mathcal{A}}\xspace} % Adversarial algorithm A
+\newcommand{\Tester}{\ensuremath{\mathcal{T}}\xspace} % Testing algorithm T
+\newcommand{\eqdef}{\stackrel{\rm def}{=}}
+\newcommand{\eqlaw}{\stackrel{\mathcal{L}}{=}}
+\newcommand{\accept}{\textsf{ACCEPT}\xspace}
+\newcommand{\fail}{\textsf{FAIL}\xspace}
+\newcommand{\reject}{\textsf{REJECT}\xspace}
+\newcommand{\yes}{{\sf{}Yes}\xspace} 
+\newcommand{\no}{{\sf{}No}\xspace} 
+% Distances
+\newcommand{\totalvardist}[2]{{\operatorname{d_{\rm TV}}\!\left({#1, #2}\right)}}
+\newcommand{\hamming}[2]{{\operatorname{d}\!\left(#1, #2\right)}}
+\newcommand{\editdist}[2]{{\operatorname{d}\!\left(#1, #2\right)}}
+\newcommand{\dist}[2]{{\operatorname{dist}\!\left(#1, #2\right)}}
+% Norms
+\newcommand{\norm}[1]{\lVert#1{\rVert}}
+\newcommand{\normone}[1]{{\norm{#1}}_1}
+\newcommand{\normtwo}[1]{{\norm{#1}}_2}
+\newcommand{\norminf}[1]{{\norm{#1}}_\infty}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+% Sets and indicators
+\newcommand{\setOfSuchThat}[2]{ \left\{\; #1 \;\colon\; #2\; \right\} } 			% sets such as "{ elems | condition }"
+% Probability
+\newcommand{\proba}{\operatorname{\mathbb{P}}}
+\newcommand{\probaOf}[1]{\Pr\!\left[\, #1\, \right]}
+\newcommand{\probaCond}[2]{\Pr\!\left[\, #1 \;\middle\vert\; #2\, \right]}
+\newcommand{\probaDistrOf}[2]{\Pr_{#1}\left[\, #2\, \right]}
+% Expectation & variance
+\newcommand{\expect}[1]{\mathbb{E}\!\left[#1\right]}
+\newcommand{\expectCond}[2]{\mathbb{E}\!\left[\, #1 \;\middle\vert\; #2\, \right]}
+\newcommand{\shortexpect}{\mathbb{E}}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\uniform}{\ensuremath{\mathcal{U}}}
+% Complexity
+\newcommand{\littleO}[1]{{o\!\left({#1}\right)}}
+\newcommand{\bigO}[1]{{O\!\left({#1}\right)}}
+\newcommand{\bigTheta}[1]{{\Theta\!\left({#1}\right)}}
+\newcommand{\bigOmega}[1]{{\Omega\!\left({#1}\right)}}
+\newcommand{\tildeO}[1]{\tilde{O}\!\left({#1}\right)}
+\newcommand{\tildeTheta}[1]{\operatorname{\tilde{\Theta}}\!\left({#1}\right)}
+
+\pagestyle{headings}    % Go for customized headings
+
+\newcommand{\handout}[5]{
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \parbox[t]{4in} {\bf #1 } \vspace{3mm}  {\hfill \bf #2 }
+       \vspace{2mm}
+       \hbox to 6.00in { {\Large \hfill #5  \hfill} }
+       \vspace{1mm}
+       \hbox to 6.00in { {\it #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{1mm}
+}
+
+% compact lists, and handy shortcuts for items
+\usepackage[shortlabels]{enumitem}
+
+\begin{document}
+
+\handout{Mekhos Health}{Copyright 2017}
+{anirban@mekhoshealth.com}
+{}{Mekhos - Clinical Studio Integration}
+
+\thispagestyle{plain}
+
+\section{Overview}
+\noindent
+Mekhos Health has created a technology pipeline that removes the burden of manual patient prescreening, data transcription and data cleaning from the clinical research coordinator - and enables the CRO to perform centralized remote source data verification, query resolution and monitoring. 
+\\
+\\
+This documentation will outline Mekhos Health's technology features, how they will be integrated with Clinical Studio EDC, and how the features will be used in a live trial.
+
+
+\section{Technology}
+\noindent
+Mekhos Health has developed a technology pipeline designed to streamline the recruitment and monitoring process between the clinical site, CRO and EDC. The platform consists of three main parts: 
+
+\begin{itemize}
+\item \textbf{Anonymization Application} Desktop application downloaded from ClinicalStudio and is designed to automatically remove any of the 18 PHI identifiers from a clinical note or lab result. Allows CRC to anonymize data before uploading to EDC
+
+\item \textbf{Prescreening Application} Lightweight desktop application that can be downloaded from ClinicalStudio and is designed to automate the process of patient prescreening. The clinical care coordinator can point a corpus of relevant PDF data to the app, and immediately find all patients eligible for a given trial. 
+
+\item \textbf{eSource-EDC API} The API works by ingesting uploaded PDF data through the EDC and mapping the appropriate values to fields in the case report forms. The API can ingest any type of eSource data including EMRs, clinical notes, lab results, typed charts etc. The API then writes each field in the CRFs, linking the relevant portion of the source data for easy source data verification and generates automated queries related to source data discrepancies, possible adverse events, and general data errors. 
+\end{itemize}
+
+~\linebreak
+\noindent
+All three applications will be reviewed and certified to comply to 21 CFR Part 11 and HIPAA standards and any data transfer will be encrypted under SSL.  
+
+
+\section{Workflow}
+\noindent
+Our technology pipeline aims to significantly reduce time and friction in the recruitment and monitoring workflow, and allow for near realtime updates. Specifically our technology has been designed to streamline the process of gathering source data, cleaning it, verifying it, flagging it for anomalies and patterns, and finally uploading the appropriate elements to the EDC. We list out the high level workflow steps below:
+
+\subsection{Recruitment}
+\begin{enumerate}
+\item CRC downloads the prescreening desktop application
+\item CRC queries EMR on generic ICD codes to construct a broad patient cohort
+\item CRC inputs the folder of PDFs with patient records to the application
+\item Application returns list of eligible patients along with linked portions of source data for verification
+\item CRC schedules relevant patients for visits 
+\end{enumerate}
+
+\subsection{Monitoring}
+\begin{enumerate}
+\item CRC downloads anonymization desktop app and anonymizes eSource data
+\item CRC uploads anonymized PDF source documents to Clinical Studio EDC
+\item Clinical Studio sends PDFs to Mekhos Health API in reatime
+\item Mekhos API automatically ingests documents and populates the EDC
+\item Mekhos API generates automated queries based on data discrepancies, anomalous elements in source data, operational issues
+\item CRA is able to review the newly entered in CRF fields and verify through relevant linked portions of the source data. 
+\item CRC is able to review updates on EDC, queries.
+\end{enumerate}
+
+\section{Authentication}
+Our API is built to ensure secure connection between the Clinical Studio EDC and API. We follow the SSL standard and all traffic is sent over an HTTPS connection. The end user authenticates with a username/password. All requests are associated with a specific user and permissions are limited to that user's capabilities.
+
+
+\section{API schema}
+We use an event centric view for our API schema. All objects are returned in JSON format. Each JSON blob refers to any instance of a patient visit at a hospital or healthcare organization. The source data for a given patient visit can be EMR data, lab data, claims data, raw physician notes. Our API maps source data for each event to our schema of base CRF fields that apply to every trial and customized CRF fields that are added on a per trial basis. We specify the schema for a given patient event below:
+\\
+\\
+\\
+$\{$ 
+\\
+patient ID,
+\\
+visit,
+\\
+clinical site,
+\\
+inpatient vs outpatient,
+\\
+PI,
+\\
+note date,
+\\
+$\{$ concomitant medication:
+\\
+\indent $\{$ baseline med, continuing at end of study, dose (per admin), dose form, dose units, end date, linkback, medication/non-drug therapy, route of administration, schedule/frequency, start date $\}$
+\\
+\indent $\}$,
+\\
+$\{$ medical history:
+\\
+\indent $\{$ body system, current problem, diagnosed condition, diagnosis/condition/surgery, linkback, onset date or year $\}$
+\\
+\indent $\}$,
+\\
+$\{$ physical examination:
+\\
+\indent $\{$ body system, clinically significant, finding, linkback $\}$
+\\
+\indent $\}$,
+\\
+$\{$ Custom CRF fields$\}$,
+\\
+$\{$ queries:
+\\
+\indent [list of queries]
+\\
+\indent $\}$
+\\
+$\}$
+
+
+\section{API EDC Integration}
+
+\subsection{UI Integration}
+Below we outline our design plan for how Mekhos Health's features will be integrated with Clinical Studio's user interface. 
+\\
+\begin{itemize}
+\item \textbf{Study Manager}
+\begin{itemize}
+\item \textbf{API to CRF} The first feature will be automated population of preconfigured CRFs (per visit). These CRFs will reside under Study Manager and will be populated through Clinical Studio Web API - requiring no UI integrations
+
+\item \textbf{Automated queries} The API will automatically generate queries for any data discrepancies, errors, missing values, etc. Requires no UI integrations.
+\end{itemize}
+
+\item \textbf{E-Source Direct tab}
+\begin{itemize}
+
+\item \textbf{PDF upload} This will be a page that allows the CRC to upload e-source documents and type in their own notes. See Figure 1.
+
+\item \textbf{Patient ID and Visit Search} This page will allow the CRC to enter the patient ID and visit number and view the appropriate values for the below items. See Figure 2
+
+\item \textbf{API to CRF with linkback} This feature will render CRFs with an additional column linking the relevant sentence from the E-Source. See Figure 3. Will be rendered as a customized CRF under the new tab.
+
+\item \textbf{API to Patient Viewer} Patient Viewer is a table summarizing the e-source document in an easy to read format. See Figure 4. Will be rendered as customized CRF under new tab. Note there may be multiple e-source documents for one visit.
+
+\item \textbf{API to Rest of E-Source} Rest of E-Source is a table with lines in the EMR that were unused by the API. Allows for the CRC to quickly verify no missing data. See Figure 5. Will be rendered as a customized CRF. 
+ \end{itemize}
+
+\item \textbf{Desktop Applications} Clinical Studio will need to create a new tab (or sub-tab) from where the Anonymization and Prescreening desktop applications will be downloaded.
+\begin{itemize} 
+\item \textbf{Anonymization}
+\item \textbf{Prescreening} - This app will automatically schedule patients to come in through Clinical Studio's scheduler once they have been identified as eligible.
+\end{itemize}
+
+\end{itemize}
+
+
+
+
+\subsection{Inserts}
+Our API supports automatic upload of EMRs regardless of schema or formatting. 
+
+\begin{enumerate}
+\item CRC uploads PDF through EDC application
+\item EDC sends PDF content via POST as application/pdf to API (with appropriate authentications)
+\item API sends JSON blob to EDC via POST as application/JSON 
+\item EDC writes JSON to appropriate CRF tables  
+\item EDC writes queries from JSON field to appropriate queries/alerts page in EDC
+\end{enumerate}
+
+
+\subsection{Example}
+We give an example of a POST request for Step 3 (specifically for API to CRF with linkback) above. 
+\\
+\\
+{\bfseries Request} POST www.webapi.clinicalstudio.com/api/form
+\\
+Content-Type: application/json
+\\
+Accept Language: en
+\\
+Authorization: YW5pcm
+\\
+User Agent: api/1.0
+\\
+\{
+\\
+record: $\{$ 
+\\
+"patient ID": "100",
+\\
+"visit": "01",
+\\
+"clinical site": "Johns Hopkins",
+\\
+"inpatient vs outpatient": "inpatient",
+\\
+"PI": "James Smith MD",
+\\
+"note date": "12/22/2016",
+\\
+$\{$ concomitant medication:
+\\
+\indent $\{$ "baseline med": "Y", "continuing at end of study": "Y", "dose (per admin)": "N/A", "dose form": "tablet", "dose units": "N/A", "end date": "unknown", "linkback": "he has a history of diabetes and sleep apnea. he takes prozac", "medication/non-drug therapy": "prozac", "route of administration": "oral", "schedule/frequency": "unknown", "start date": "Thu Feb 11 2016" $\}$
+\\
+\\
+\indent $\{$ "baseline med": "Y", "continuing at end of study": "Y", "dose (per admin)": "N/A", "dose form": "tablet", "dose units": "N/A", "end date": "unknown", "linkback": "cardizem, glucophage and amaryl. he is also followed by dr. harold", "medication/non-drug therapy": "cardizem", "route of administration": "oral", "schedule/frequency": "unknown", "start date": "Thu Feb 11 2016" $\}$
+\\
+\indent $\}$,
+\\
+$\{$ medical history:
+\\
+\indent $\{$ "body system": "endocrine system", "current problem": "Yes", "diagnosed condition": "Yes", "diagnosis/condition/surgery": "diabetes", "linkback": "he has a history of diabetes and sleep apnea. he takes prozac", "onset date or year": "unknown" $\}$
+\\
+\indent $\}$,
+\\
+$\{$ physical examination:
+\\
+\indent $\{$ "body system": "other", "clinically significant": "yes", "finding": "syncope", "linkback": "2) report of syncope. will obtain stress test." $\}$
+\\
+\indent $\}$,
+\\
+$\{$ queries:
+\\
+\indent ["concomitant medication - missing dose units for prozac", concomitant medication - missing dose units for cardizem"]
+\\
+\indent $\}$
+\\
+$\}$
+$\}$
+
+
+\end{document} 

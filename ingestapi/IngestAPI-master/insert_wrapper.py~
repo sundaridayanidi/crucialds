@@ -1,0 +1,87 @@
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
+"""
+This file is a wrapper that loops through all the I2b2 data and passes them into insert.py
+"""
+
+
+import urllib2
+from bs4 import BeautifulSoup
+import codecs
+import nltk
+import os
+from urllib import urlopen
+import re
+from subprocess import check_output
+import subprocess
+import pickle
+import string
+from pymongo import MongoClient
+import datetime
+import json
+from random import randint
+
+
+
+
+if __name__ == "__main__":
+    
+    path = '/Users/gangopad/Company/EMR/Data/'
+
+    for fname in os.listdir(path):
+        event_id = fname[:-4]
+        #patient_id = event_id[:-3]
+        patient_id = event_id
+
+        print event_id
+        print patient_id + "\n\n"
+
+        with open(path + fname) as f:
+            emr = f.read()
+
+        emr = emr.replace('"', '')
+
+        command = 'python /Users/gangopad/Company/REST/ApysAPI/insert.py "text" "' + patient_id + '" "' + event_id + '" """' + emr + '""" "none"'
+        #command = 'python /Users/gangopad/Company/REST/ApysAPI/insert.py "text" "' + patient_id + '" "' + event_id + '" `cat ' + path + fname + '` + "none"'
+        os.system(command)
+     
+
+    """    
+    #populate claims data
+    count = 500
+    
+    fname = '/Users/gangopad/Company/Claims/Medicare_Provider_Util_Payment_PUF_a_CY2013.csv'
+
+    with open(fname) as f:
+        next(f)
+        next(f)
+        next(f)
+
+        for line in f:
+            line = line.strip()
+            line = line.split(",")
+            
+            event_id = str(count) + "-01"
+            patient_id = str(count)
+            name = line[2] + " " + line[1] + ", " + line[4]
+            provider = line[13]
+            description = line[17]
+            cost = randint(0,1000)/10.0
+            #cost = cost[1:]
+
+            emr = name + "\t" + provider + " " + description + "\t" + str(cost)
+            emr = emr.replace('"', '')
+            emr = emr.replace('`', '')
+            emr = emr.replace("'", "")
+            #print emr
+            command = 'python /Users/gangopad/Company/REST/ApysAPI/insert.py "claims" "' + patient_id + '" "' + event_id + '" """' + emr + '""" "none"'
+            os.system(command)
+
+            print count
+            count = count + 1
+
+            if count > 1000:
+                break
+    """

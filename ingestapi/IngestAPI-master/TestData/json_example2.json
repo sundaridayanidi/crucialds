@@ -1,0 +1,54 @@
+{
+  "id": "55a2ffffae49064805446259",
+  "updatedAt": "2015-02-13T18:06:42.100Z",
+  "createdAt": "2015-02-13T18:06:42.100Z",
+  "commonBrandName": "ADDERALL XR",
+  "details": {
+      "dosage": {
+          "form": "capsule",
+          "value": "1"
+      },
+      "frequency": {
+          "number": "1",
+          "unit": "day"
+      },
+      "route": "enteral_oral",
+      "strength": {
+          "number": "15",
+          "unit": "mg"
+      }
+  },
+  "dosageInfo": "15 mg 24 hr capsule",
+  "genericProductIndicator": "443805",
+  "instructions": "Take 1 capsule by mouth every morning for 30 days.",
+  "name": "dextroamphetamine-amphetamine (ADDERALL XR) 15 mg 24 hr capsule",
+  "ndcCode": "0115-1330-01",
+  "organization": {
+      "href": "/medical/organizations/53c050ac51c69003200aa998",
+      "id": "53c050ac51c69003200aa998",
+      "name": "Cleveland Clinic"
+  },
+  "patient": {
+      "name": "Maxwell Forrest"
+  },
+  "productName": "dextroamphetamine-amphetamine",
+  "provider": "Isaias Kingston, MD",
+  "providerID": "34665",
+  "startDate": "2012-01-26T00:00:00.000Z",
+  "endDate": "2014-01-26T00:00:00.000Z",
+  "source": "emr-1-320",
+  "codes": [
+    {
+        "code": "1000114",
+        "codeSystem": "2.16.840.1.113883.6.88",
+        "codeSystemName": "RxNorm",
+        "name": "Medroxyprogesterone 10 Mg Oral Tab"
+    },
+    {
+        "code": "55289-160-05",
+        "codeSystem": "2.16.840.1.113883.6.69",
+        "codeSystemName": "NDC",
+        "name": "Medroxyprogesterone 10 Mg Oral Tab"
+    }
+  ]
+}

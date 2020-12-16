@@ -1,0 +1,82 @@
+[{
+  "id": "55a2ff2d197f25c42f2e84b7",
+  "updatedAt": "2014-12-09T18:06:42.100Z",
+  "createdAt": "2014-12-09T18:06:42.100Z",
+  "commonBrandName": "CLARITIN",
+  "details": {
+      "dosage": {
+          "form": "tablet",
+          "value": "1"
+      },
+      "frequency": {
+          "number": "1",
+          "unit": "as-needed"
+      },
+      "route": "enteral_oral",
+      "strength": {
+          "number": "10",
+          "unit": "mg"
+      }
+  },
+  "dosageInfo": "10 MG tablet",
+  "genericProductIndicator": "41550030000320",
+  "instructions": "Take 1 tab by mouth as needed (allergies).",
+  "name": "loratadine (CLARITIN) 10 MG tablet",
+  "ndcCode": "0781-5077-01",
+  "organization": {
+      "href": "/medical/organizations/53c050ac51c69003200aa998",
+      "id": "53c050ac51c69003200aa998",
+      "name": "Cleveland Clinic"
+  },
+  "patient": {
+      "name": "Maxwell Forrest"
+  },
+  "productName": "loratadine",
+  "provider": "Isaias Kingston, MD",
+  "providerID": "34665",
+  "source": "emr-1-320",
+  "startDate": "2012-01-26T00:00:00.000Z",
+  "endDate": "2014-01-26T00:00:00.000Z",
+  "codes": []
+},
+{
+  "id": "55a2fef4197f25c42f2e849f",
+  "updatedAt": "2014-12-09T18:06:42.100Z",
+  "createdAt": "2014-12-09T18:06:42.100Z",
+  "commonBrandName": "LEXAPRO",
+  "details": {
+      "dosage": {
+          "form": "tablet",
+          "value": "1"
+      },
+      "frequency": {
+          "number": "1",
+          "unit": "day"
+      },
+      "route": "enteral_oral",
+      "strength": {
+          "number": "5",
+          "unit": "mg"
+      }
+  },
+  "dosageInfo": "5 mg tablet",
+  "genericProductIndicator": "58160034100310",
+  "instructions": "Take 1 tablet by mouth every day",
+  "name": "escitalopram (LEXAPRO) 5 mg tablet",
+  "ndcCode": "0378-3855-77",
+  "organization": {
+      "href": "/medical/organizations/53c050ac51c69003200aa998",
+      "id": "53c050ac51c69003200aa998",
+      "name": "Cleveland Clinic"
+  },
+  "patient": {
+      "name": "Maxwell Forrest"
+  },
+  "productName": "escitalopram",
+  "provider": "Isaias Kingston, MD",
+  "providerID": "34665",
+  "source": "emr-1-320",
+  "startDate": "2012-01-26T00:00:00.000Z",
+  "endDate": "2014-01-26T00:00:00.000Z",
+  "codes": []
+}]

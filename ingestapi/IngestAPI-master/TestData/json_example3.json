@@ -1,0 +1,30 @@
+{
+    "id": "55e692d20c7deefb7cfe90f8",
+    "createdAt": "2014-09-01T21:42:09.969Z",
+    "updatedAt": "2014-09-01T21:42:10.072Z",
+    "dateTime": "2014-02-11T09:30:00.000Z",
+    "source": "emr-1-320",
+    "device": null,
+    "deviceCodes": [],
+    "name": "HCHG CYSTOURETHROSCOPY",
+    "organization": {
+        "href": "/medical/organizations/53c050ac51c69003200aa998",
+        "id": "53c050ac51c69003200aa998",
+        "name": "Cleveland Clinic"
+    },
+    "performer": {
+        "address": null,
+        "organizationName": null,
+        "phone": null
+    },
+    "specimen": null,
+    "specimenCodes": [],
+    "codes": [
+        {
+            "code": "52000",
+            "codeSystem": "2.16.840.1.113883.6.12",
+            "codeSystemName": "CPT-4",
+            "name": "HCHG CYSTOURETHROSCOPY"
+        }
+    ]
+}

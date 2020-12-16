@@ -1,0 +1,6 @@
+Patient ID| Medication | Symptoms
+1111| advil | complaining of fever and stomach ache
+1111| januvia| administered for high levels of blood sugar and diabetes
+1111| victoza| updated insulin due to increased diabetes
+1112| methotrexate| problems with gout
+1112| hydroxychloroquine| gout issues with rheumatoid arthritis 

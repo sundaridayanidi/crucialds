@@ -1,0 +1,12 @@
+In this project we write an API wrapper that writes to the ClinicalStudio EDC. The wrapper:
+
+1) Waits for a POST from the EDC to push a PDF object
+2) Converts the pdf into text and pushes it into the insert route (if there isnt one then create one)
+3) Calls ApysAPI for each CRF field based on patient ID, visit number
+2) Authenticates and writes to the appropriate CRFs
+
+-We need a place to write linkback so figure out with Paul where that should happen
+-Plan with Paul as to how they plan to send the PDF
+-We need a place to write the "recall" table so figure out where that should happen & implement it
+
+-We will want the wrapper in JS because the ClinicalStudio API uses callbacks

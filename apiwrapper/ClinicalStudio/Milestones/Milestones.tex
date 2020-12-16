@@ -1,0 +1,173 @@
+ \documentclass[12pt, oneside]{article}
+
+ \setlength{\parskip}{\baselineskip}%
+
+\setlength{\parindent}{6pt}%
+
+%\hoffset =0pt
+%\voffset = 0pt
+%\oddsidemargin = 50pt 
+%\topmargin = 50pt
+%\headheight = 12pt 
+ %\headsep = 25pt
+ %\textheight = 646pt 
+ %\textwidth = 424pt
+%\marginparsep = 11pt 
+ %\marginparwidth = 90pt
+%\footskip = 30pt 
+% \marginparpush = 5pt (not shown)
+%\paperwidth = 597pt 
+ %\paperheight = 1000pt
+
+\setlength{\oddsidemargin}{0pt}
+\setlength{\textwidth}{470pt}
+\setlength{\parindent}{1cm} % Default is 15pt.
+
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{epsfig}
+\usepackage{fancyhdr}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{indentfirst}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{lipsum}
+\usepackage{xcolor}
+\usepackage[export]{adjustbox}
+
+\usepackage{wrapfig}
+
+\newtheorem{prop}{Proposition}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+\newcommand{\infint}{\int_{-\infty}^\infty}
+\newcommand{\intunit}{\int_{-1}^1}
+
+%\title{Graph-Based}
+%\author{}
+%\author{Aryya Gangopadhyay\\
+%{\tt gangopad@umbc.edu}
+%}
+
+
+\begin{document}
+\pagestyle{fancy}
+\lhead{}
+\rhead{\begin{picture}(0,0) \put(0,0){\hbox{\hspace{-5em} \includegraphics[width=4cm]{logo.png}}} \end{picture}}
+%\rhead{}
+\thispagestyle{fancy}
+\chead{\bf CLSDS - Mekhos Partnership}
+\cfoot{\copyright\ 2017 Mekhos Health\    All Rights Reserved}
+
+
+% {\fontfamily{ghv}\selectfont
+
+\section{Overview}
+\noindent
+Mekhos Health has developed an API that is able to capture unstructured e-Source data (EMR data including clinical notes, unstructured e-Pro diaries, lab notes and more) and automatically write to e-CRF forms hosted on an EDC. 
+\\
+\\
+We also provide functionality for activated sites to perform eligibility screening across EMR records of potential trial candidates.  We can ingest data from all EMR providers/schema, devices, and other eSource data, allowing for flexibility that is required for the particulars of each study. 
+\\
+\\
+Our value-add to Clinical Studio / CLSDS is reducing site-side barriers of utilization and creating value for sponsors. By automatically integrating disparate e-Source data we substantially reduce the amount of work required by site coordinators to manually (re)-enter data into the EDC that has been captured elsewhere.Our prescreening platform also significantly reduces recruitment time by providing the mechanism to automatically identify patients up front and immediately schedule them for visits. 
+\\
+\\
+Further, we enable CLSDS’s clients to gather and analyze data in near real-time at the point of primary data capture from the patient.  
+
+
+
+
+
+\section{Milestones}
+\noindent
+The below outlines our goals over the next 6-12 months:
+
+\begin{itemize}
+\item \textbf{Mid/end of June} 
+\begin{itemize}
+\item Complete training and understanding of Clinical Studio EDC, environment
+\item Determine what quality/compliance standards need to be achieved and initiate processes
+\item Begin API integration with Clinical Studio
+\item Demos and feedback from our network of CRCs
+\end{itemize}
+
+\newpage
+
+\item \textbf{Early July}
+\begin{itemize}
+\item Identification of potential pilots/trials at academic and/or outpatient centers
+\item Technical integration between Clinical Studio and our API
+\end{itemize}
+
+\item \textbf{End of July}
+\begin{itemize}
+\item Run internal/external audits on Mekhos API consistent with compliance requirements
+\end{itemize}
+
+\item \textbf{End of August}
+\begin{itemize}
+\item Finalize 1-2 pilots and initiate trials
+\end{itemize}
+
+\item \textbf{Fall 2017}
+\begin{itemize}
+\item Determine go-to-market strategy for selling to sponsors along with commercialization plan
+\item Continue to test + iterate technology, UI, and Go-to-Market strategy with each trial
+\end{itemize}
+
+\end{itemize}
+
+\section{Pilot Objectives}
+\begin{enumerate}
+\item Demonstrate viability of Mekhos API technology – specifically, the ability to
+\begin{itemize}
+\item Integrate EMR, ePRO, lab, virtual chart data entered by CRC 
+\item Remain agnostic to the sites’ choice of EMR provider and schema
+\item Structure data and return JSON objects to the EDC
+\end{itemize}
+
+\item Determine how end-users at the clinical site find value in reducing manual, redundant data entry into the EDC and confirm this would actually be used
+\item Identify unknown unknowns and address before going to sponsors
+\end{enumerate}
+
+\section{Pilot Description}
+\noindent 
+In identifying ideal pilot trials for later this summer, the below characteristics of studies are important:
+
+\begin{itemize}
+\item Short duration (max 1-2 months)
+\item Launching late summer/fall
+\item Occur in sites where EMR is the primary data source
+\item Have sufficiently complex data requirements for the CRF (not just a few basic vitals taken at each visit)
+\item Should have anyway used MS Excel or another EDC as basis for research database
+\item Have an e-PRO component allowing us to test ePro diary in conjunction with the API (optional)
+\end{itemize}
+
+\section{Commercial Partnership}
+\noindent
+Below are two options on the partnership structure between Mekhos Health and CLSDS:
+
+\begin{enumerate}
+\item CLSDS offers Mekhos Health features as an optional add on to Clinical Studio EDC. For sponsors that choose the add on, Mekhos Health and CLSDS will engage in revenue sharing.
+\item CLSDS will offer API services for all trials and charge a higher price to their clients. Mekhos Health will treat CLSDS as a customer and will get a percentage of the upcharge in the form of license fee.
+\end{enumerate}
+
+\section{Quality Management}
+\noindent
+Our technology platform reads in text or PDF documents, extracts the relevant information and structures it on our HIPAA-compliant servers. Mekhos API will be reviewed and certified to comply to 21 CFR Part 11 and HIPAA standards and any data transfer will be encrypted under SSL. Further, we will pursue any necessary industry certifications and/or audits such as ISO 9001 and/or GDPR.
+\\
+\\
+Technical integration overview discussed in the separate documentation. 
+
+
+
+
+%}
+
+\end{document}
