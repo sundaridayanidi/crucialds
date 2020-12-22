@@ -61,6 +61,21 @@ def index(request):
 		}
 	});
 
+'''
+
+
+def addUser(request):
+	pass
+
+
+
+
+
+
+
+
+
+'''
 
 	app.post("/addUser", function(req, res) {
 		var credentials = "Basic cGF1bC5ncmFkeUBjbHNkcy5jb206Z3JzMm1nViQoZFIkMytASw==";
