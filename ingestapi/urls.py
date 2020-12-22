@@ -13,14 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
 from django.contrib import admin
 from django.urls import path
-import ingestapi
+from ingestapi import views
 
 urlpatterns = [
-#path('/', urls.home),
-path('ingestapi/', include('ingestapi.urls'),  name='escape'),
-
-    path('admin/', admin.site.urls),
+path(r'', views.index , name='viewproduct'),   
+ path('admin/', admin.site.urls),
 ]

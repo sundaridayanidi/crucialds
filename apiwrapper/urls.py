@@ -18,6 +18,6 @@ from django.urls import path
 from apiwrapper import urls
 
 urlpatterns = [
-path('/', ClinicalStudio.pdf2txt.py),
+#path('/', ClinicalStudio.pdf2txt.py),
     path('admin/', admin.site.urls),
 ]
