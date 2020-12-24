@@ -42,6 +42,12 @@ def index(request):
 	});
 
 
+'''
+
+
+
+
+'''
 
 	app.get("/getPassword", function(req, res) {
 		if (!req.query.username) {
@@ -63,15 +69,34 @@ def index(request):
 
 '''
 
-
+   
 def addUser(request):
-	pass
+	data["username"] = req.body.username;
+	data["trialID"] = req.body.trialID;
+	data["role"] = req.body.role;
+	data["password"] = Math.random().toString(36).slice(-8);
+	data["total_edc"] = "0";
+	data["edc_time"] = "None";
+    if (req.body.username == "henrik@viedoc.com" || req.body.username == "mikael@viedoc.com") {
+		data["db"] = "viedoc";
+	} else {
+		data["db"] = "clinical_studio";
+	}
+    var query = { "username": req.body.username, "trialID": req.body.trialID};
 
+	db.collection("users").find(query).count(function(err, count) {
 
+	if (count == 0) {
+		#we add 7 because we display seven in the timeline in AccelEDC
+		data["pdf_history"] = [{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}, {"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}];
+		db.collection("users").insert(data);
 
-
-
-
+		res.setHeader("Access-Control-Allow-Origin", "*");
+		return res.sendStatus(200);
+	} else {
+		res.setHeader("Access-Control-Allow-Origin", "*");
+		return res.sendStatus(200);
+	}
 
 
 
