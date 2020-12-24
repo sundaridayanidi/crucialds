@@ -151,6 +151,20 @@ def addUser(request):
 	});
 
 
+'''
+
+
+   
+def updateRole(request):
+	pass
+
+
+
+
+
+
+'''
+
 	app.get("/updateRole", function(req, res) {
 		if (!req.query.username || !req.query.trialID || !req.query.role) {
 			return res.send({"status": "error", "message": "missing parameters"});
@@ -164,6 +178,18 @@ def addUser(request):
 	});
 
 
+
+'''
+
+   
+def addPDFHistory(request):
+	pass
+
+
+
+
+
+'''
 	app.get("/addPDFHistory", function(req, res) {
 
 		if (!req.query.username) {
@@ -201,6 +227,15 @@ def addUser(request):
 	    }
 	});
 
+'''
+
+   
+def addEDCSubmission(request):
+	pass
+
+'''
+
+
 
 	app.get("/addEDCSubmission", function(req, res) {
 		if (!req.query.username || !req.query.trialID || !req.query.total_edc || !req.query.edc_time) {
@@ -224,6 +259,15 @@ def addUser(request):
 	});
 
 
+
+'''
+
+   
+def getSettings(request):
+	pass
+
+'''
+
 	app.get("/getSettings", function(req, res) {
 		if (!req.query.db) {
 			return res.send({"status": "error", "message": "missing parameters"});
@@ -240,6 +284,18 @@ def addUser(request):
   			});
 		}
 	});
+
+
+
+
+'''
+
+   
+def logIP(request):
+	pass
+
+'''
+
 
 
 	app.get("/logIP", function(req, res) {
@@ -268,6 +324,18 @@ def addUser(request):
 	});
 
 
+
+
+'''
+
+   
+def getTimeline(request):
+	pass
+
+'''
+
+
+
 	app.get("/getTimeline", function(req, res) {
 		if (!req.query.username || !req.query.trialID) {
 			return res.send({"status": "error", "message": "missing parameters"});
@@ -284,6 +352,16 @@ def addUser(request):
   			});
 		}
 	});
+
+
+'''
+
+   
+def insert(request):
+	pass
+
+'''
+
 
 
     app.post("/insert", function(req, res) {
