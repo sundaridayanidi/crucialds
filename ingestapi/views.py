@@ -8,7 +8,9 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.http import JsonResponse
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
+@login_required()
 def index(request):
     context = RequestContext(request)
     records = {"Name":"Alfreds Futterkiste","City":"Berlin","Country":"Germany"}, {"Name":"Ana Trujillo Emparedados y helados","City":"México D.F.","Country":"Mexico"}, {"Name":"Antonio Moreno Taquería","City":"México D.F.","Country":"Mexico"}, {"Name":"Around the Horn","City":"London","Country":"UK"}, {"Name":"B's Beverages","City":"London","Country":"UK"}, {"Name":"Berglunds snabbköp","City":"Luleå","Country":"Sweden"}, {"Name":"Blauer See Delikatessen","City":"Mannheim","Country":"Germany"}, {"Name":"Blondel père et fils","City":"Strasbourg","Country":"France"}, {"Name":"Bólido Comidas preparadas","City":"Madrid","Country":"Spain"}, {"Name":"Bon app'","City":"Marseille","Country":"France"}, {"Name":"Bottom-Dollar Marketse","City":"Tsawassen","Country":"Canada"}, {"Name":"Cactus Comidas para llevar","City":"Buenos Aires","Country":"Argentina"}, {"Name":"Centro comercial Moctezuma","City":"México D.F.","Country":"Mexico"}, {"Name":"Chop-suey Chinese","City":"Bern","Country":"Switzerland"}, {"Name":"Comércio Mineiro","City":"São Paulo","Country":"Brazil"}
@@ -69,7 +71,7 @@ def index(request):
 
 '''
 
-   
+@login_required()   
 def addUser(request):
 	data = {}
 	data["username"] = request.GET["username"]
@@ -152,7 +154,7 @@ def addUser(request):
 '''
 
 
-   
+@login_required()   
 def updateRole(request):
 	db.collection("users").update({"username": request.GET["username"], "trialID": request.GET["trialID"]}, { $set : {"role": request.GET["role"]}}, {"multi": true});
 	return HttpResponse(status=200)    	
@@ -180,28 +182,24 @@ def updateRole(request):
 
 '''
 
-   
+@login_required()   
 def addPDFHistory(request):
-	var title = request.GET["title"]
+	title = request.GET["title"]
 	title = title.split("_").join(" ");
-	var time = request.GET["time"]
+	time = request.GET["time"]
 	time = time.split("_").join(" ");
-	var body = request.GET["body"]
+	body = request.GET["body"]
 	body = body.split("_").join(" ");
 
-	var pdf = {"Title": title, "Time": time, "Body": body};
-	var username = request.GET["username"]
-	var trialID = request.GET["username"
-	var dat = [];
+	pdf = {"Title": title, "Time": time, "Body": body};
+	username = request.GET["username"]
+	trialID = request.GET["trialID"]
+	dat = [];
 	dat.push(pdf);
 
 
 	db.collection("users").update({"username": username, "trialID": trialID}, {$push: { "pdf_history": { $each: dat }}});
-	res.setHeader("Access-Control-Allow-Origin", "*");
-	res.setHeader('Access-Control-Allow-Methods', 'POST');
-	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-	return res.sendStatus(200);
+	return HttpResponse(status=200)  
 
 
 
@@ -247,9 +245,15 @@ def addPDFHistory(request):
 
 '''
 
-   
+@login_required()   
 def addEDCSubmission(request):
-	pass
+	title = request.GET["title"]
+	title = title.split("_").join(" ");
+	time = request.GET["time"]
+	time = time.split("_").join(" ");
+	body = request.GET["body"]
+	body = body.split("_").join(" ");
+
 
 '''
 
