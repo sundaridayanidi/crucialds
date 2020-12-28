@@ -7,11 +7,11 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
 from django.http import JsonResponse
-
+from django.http import HttpResponse
 
 def index(request):
     context = RequestContext(request)
-    records = [ {"Name":"Alfreds Futterkiste","City":"Berlin","Country":"Germany"}, {"Name":"Ana Trujillo Emparedados y helados","City":"México D.F.","Country":"Mexico"}, {"Name":"Antonio Moreno Taquería","City":"México D.F.","Country":"Mexico"}, {"Name":"Around the Horn","City":"London","Country":"UK"}, {"Name":"B's Beverages","City":"London","Country":"UK"}, {"Name":"Berglunds snabbköp","City":"Luleå","Country":"Sweden"}, {"Name":"Blauer See Delikatessen","City":"Mannheim","Country":"Germany"}, {"Name":"Blondel père et fils","City":"Strasbourg","Country":"France"}, {"Name":"Bólido Comidas preparadas","City":"Madrid","Country":"Spain"}, {"Name":"Bon app'","City":"Marseille","Country":"France"}, {"Name":"Bottom-Dollar Marketse","City":"Tsawassen","Country":"Canada"}, {"Name":"Cactus Comidas para llevar","City":"Buenos Aires","Country":"Argentina"}, {"Name":"Centro comercial Moctezuma","City":"México D.F.","Country":"Mexico"}, {"Name":"Chop-suey Chinese","City":"Bern","Country":"Switzerland"}, {"Name":"Comércio Mineiro","City":"São Paulo","Country":"Brazil"} ]
+    records = {"Name":"Alfreds Futterkiste","City":"Berlin","Country":"Germany"}, {"Name":"Ana Trujillo Emparedados y helados","City":"México D.F.","Country":"Mexico"}, {"Name":"Antonio Moreno Taquería","City":"México D.F.","Country":"Mexico"}, {"Name":"Around the Horn","City":"London","Country":"UK"}, {"Name":"B's Beverages","City":"London","Country":"UK"}, {"Name":"Berglunds snabbköp","City":"Luleå","Country":"Sweden"}, {"Name":"Blauer See Delikatessen","City":"Mannheim","Country":"Germany"}, {"Name":"Blondel père et fils","City":"Strasbourg","Country":"France"}, {"Name":"Bólido Comidas preparadas","City":"Madrid","Country":"Spain"}, {"Name":"Bon app'","City":"Marseille","Country":"France"}, {"Name":"Bottom-Dollar Marketse","City":"Tsawassen","Country":"Canada"}, {"Name":"Cactus Comidas para llevar","City":"Buenos Aires","Country":"Argentina"}, {"Name":"Centro comercial Moctezuma","City":"México D.F.","Country":"Mexico"}, {"Name":"Chop-suey Chinese","City":"Bern","Country":"Switzerland"}, {"Name":"Comércio Mineiro","City":"São Paulo","Country":"Brazil"}
     return JsonResponse(records, safe = False)
     #return render_to_response('booking.html', 'records': records, context)
 
@@ -71,37 +71,35 @@ def index(request):
 
    
 def addUser(request):
-	data["username"] = req.body.username;
-	data["trialID"] = req.body.trialID;
-	data["role"] = req.body.role;
+	data = {}
+	data["username"] = request.GET["username"]
+	data["trialID"] = request.GET["trialID"]
+	data["role"] = request.GET["role"]
 	data["password"] = Math.random().toString(36).slice(-8);
 	data["total_edc"] = "0";
 	data["edc_time"] = "None";
-    if (req.body.username == "henrik@viedoc.com" || req.body.username == "mikael@viedoc.com") {
-		data["db"] = "viedoc";
-	} else {
+    if (request.GET["username"] == "henrik@viedoc.com" || request.GET["username"] == "mikael@viedoc.com"):
+    	data["db"] = "viedoc";
+	else:
 		data["db"] = "clinical_studio";
-	}
-    var query = { "username": req.body.username, "trialID": req.body.trialID};
+	
+    var query = { "username": request.GET["username"], "trialID": request.GET["trialID"]};
 
-	db.collection("users").find(query).count(function(err, count) {
+	count = db.collection("users").find(query).count()
 
-	if (count == 0) {
+	if (count == 0):
 		#we add 7 because we display seven in the timeline in AccelEDC
 		data["pdf_history"] = [{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}, {"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}];
 		db.collection("users").insert(data);
 
-		res.setHeader("Access-Control-Allow-Origin", "*");
-		return res.sendStatus(200);
-	} else {
-		res.setHeader("Access-Control-Allow-Origin", "*");
-		return res.sendStatus(200);
-	}
+		return HttpResponse(status=200)
+	else:
+		return HttpResponse(status=200)
+	
 
 
 
 '''
-
 	app.post("/addUser", function(req, res) {
 		var credentials = "Basic cGF1bC5ncmFkeUBjbHNkcy5jb206Z3JzMm1nViQoZFIkMytASw==";
 
@@ -156,7 +154,8 @@ def addUser(request):
 
    
 def updateRole(request):
-	pass
+	db.collection("users").update({"username": request.GET["username"], "trialID": request.GET["trialID"]}, { $set : {"role": request.GET["role"]}}, {"multi": true});
+	return HttpResponse(status=200)    	
 
 
 
@@ -183,7 +182,26 @@ def updateRole(request):
 
    
 def addPDFHistory(request):
-	pass
+	var title = request.GET["title"]
+	title = title.split("_").join(" ");
+	var time = request.GET["time"]
+	time = time.split("_").join(" ");
+	var body = request.GET["body"]
+	body = body.split("_").join(" ");
+
+	var pdf = {"Title": title, "Time": time, "Body": body};
+	var username = request.GET["username"]
+	var trialID = request.GET["username"
+	var dat = [];
+	dat.push(pdf);
+
+
+	db.collection("users").update({"username": username, "trialID": trialID}, {$push: { "pdf_history": { $each: dat }}});
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	res.setHeader('Access-Control-Allow-Methods', 'POST');
+	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+	return res.sendStatus(200);
 
 
 
