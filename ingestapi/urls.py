@@ -18,6 +18,20 @@ from django.urls import path
 from ingestapi import views
 
 urlpatterns = [
-path(r'', views.index , name='viewproduct'),   
- path('admin/', admin.site.urls),
+    path(r'', views.index , name='viewproduct'),   
+    path('admin/', admin.site.urls),
+    path('addUser/',views.addUser, name='adduser'),
+    path('updateRole/',views.updateRole, name='Updaterole'),
+    path('addPDFHistory/',views.addPDFHistory, name='AddPDFHistory'),
+    path('addEDCSubmission/',views.addEDCSubmission, name='AddEDCsubmission'),
+    path('getSettings/',views.getSettings, name='getSettings'),
+    path('logIP/',views.logIP, name='logIP'),
+    path('getTimeline/',views.getTimeline, name='getTimeline'),
+    path('insert/',views.insert, name='insert'),
+    path('delete/',views.delete, name='delete'),
+    path('costing/',views.costing, name='costing'),
+    path('readmissions/',views.readmissions, name='readmissions'),
+    path('linkback/',views.linkback, name='linkback'),
+    path('distribution/',views.distribution, name='distribution'),
+    path('countdistribution/',views.countdistribution, name='countdistribution'),
 ]
