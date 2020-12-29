@@ -17,12 +17,7 @@ def index(request):
     return JsonResponse(records, safe = False)
     #return render_to_response('booking.html', 'records': records, context)
 
-
-
-
 '''
-
-
     app.get("/", function(req, res) {
 	    var accountMock = {
 		"username": "nraboy",
@@ -77,22 +72,21 @@ def addUser(request):
 	data["username"] = request.GET["username"]
 	data["trialID"] = request.GET["trialID"]
 	data["role"] = request.GET["role"]
-	data["password"] = Math.random().toString(36).slice(-8);
-	data["total_edc"] = "0";
-	data["edc_time"] = "None";
-    if (request.GET["username"] == "henrik@viedoc.com" || request.GET["username"] == "mikael@viedoc.com"):
-    	data["db"] = "viedoc";
+	data["password"] = Math.random().toString(36).slice(-8)
+	data["total_edc"] = "0"
+	data["edc_time"] = "None"
+	if (request.GET["username"] == "henrik@viedoc.com" or request.GET["username"] == "mikael@viedoc.com"):
+		data["db"] = "viedoc"
 	else:
-		data["db"] = "clinical_studio";
-	
-    var query = { "username": request.GET["username"], "trialID": request.GET["trialID"]};
+		data["db"] = "clinical_studio"
+	query = { "username": request.GET["username"], "trialID": request.GET["trialID"]}
 
 	count = db.collection("users").find(query).count()
 
 	if (count == 0):
 		#we add 7 because we display seven in the timeline in AccelEDC
-		data["pdf_history"] = [{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}, {"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}];
-		db.collection("users").insert(data);
+		data["pdf_history"] = [{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}, {"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}]
+		db.collection("users").insert(data)
 
 		return HttpResponse(status=200)
 	else:
@@ -156,7 +150,7 @@ def addUser(request):
 
 @login_required()   
 def updateRole(request):
-	db.collection("users").update({"username": request.GET["username"], "trialID": request.GET["trialID"]}, { $set : {"role": request.GET["role"]}}, {"multi": true});
+	db.collection("users").update({"username": request.GET["username"], "trialID": request.GET["trialID"]}, { $set : {"role": request.GET["role"]}}, {"multi": true})
 	return HttpResponse(status=200)    	
 
 
@@ -1445,6 +1439,225 @@ def countdistribution(request):
 
 	});
 
+
+'''
+
+
+def othercountdistribution(request):
+	if (req.query.inclusion) {
+                    inclusion = req.query.inclusion;
+                } else {
+                    inclusion = "";
+                }
+
+
+
+    
+                if (req.query.exclusion) {
+                    exclusion = req.query.exclusion;
+                } else {
+                    exclusion = "";
+                }
+
+
+        type = req.query.type + String(",patient_id");
+		numTerms = parseInt(req.query.num);
+
+		findDocuments(db, umls_db, type, inclusion, "inclusion", req.query.collectioName, "false", function(docs) {
+                        console.log(docs.length);
+                        findDocuments(db, umls_db, type, exclusion, "exclusion", req.query.collectionName, "false", function(docs2) {
+                                console.log(docs2.length);
+
+				findDocuments(db, umls_db, type, other_inclusion, "inclusion", req.query.collectionName, "false", function(docs3) {
+				    console.log(docs3.length);
+
+                                var docs2_ids = [];
+				var docs_ids = [];
+
+
+                                for (i = 0; i < docs2.length; i++) {
+                                    docs2_ids[i] = String(docs2[i]._id);
+                                }
+
+				for (i = 0; i < docs.length; i++) {
+                                    docs_ids[i] = String(docs[i]._id);
+                                }
+
+                                //console.log("Length of docs2_ids " + docs2_ids.length);                                                                                    
+                                var count = 0;
+                                finalDocs = [];
+                                for (i = 0; i < docs3.length; i++) {
+                                    // console.log(docs[i]._id);
+
+				    if (docs_ids.indexOf(String(docs3[i]._id)) > -1) {
+                                        //console.log("The above is in docs2!");
+					if (docs2_ids.indexOf(String(docs3[i]._id)) > -1) {
+					    finalDocs[count] = docs3[i];
+                                            count = count + 1;
+					} 
+
+				    } else {
+
+                                        //console.log("The above is not in docs2!");                                                                                           
+					finalDocs[count] = docs3[i];
+                                        count = count + 1;
+                                    }
+                                }
+
+				count = 0;
+                                countfinalDocs = []; //docs of diseases that fit inclusion/exclusion criteria. we get this to get the list of type values for the qualified query                     
+
+				for (i = 0; i < docs.length; i++) {
+                                    // console.log(docs[i]._id);                                                                                                                                     
+				    if (docs2_ids.indexOf(String(docs[i]._id)) > -1) {
+                                        //console.log("The above is in docs2!");                                                                                                                       
+				    } else {
+                                        //console.log("The above is not in docs2!");                                                                                                                
+                                        countfinalDocs[count] = docs[i];
+                                        count = count + 1;
+                                    }
+                                }
+
+
+
+                                //finalDocs = docs.filter(function(x) { return docs2.indexOf(x) < 0 });                                                                          
+				console.log("Final docs " + finalDocs.length);
+
+				var distribution = {};
+				var seen_patients = [];
+                                //we compute the percentage breakdown of the types by element and return the result in a JSON blob
+				for (i = 0; i < finalDocs.length; i++) {
+				    tmp = finalDocs[i];
+				    
+				    if (seen_patients.indexOf(String(tmp["patient_id"])) == -1) {
+                                        //add the unseen patient ID to the list of seen. We only want to count on unique patients not unique records                                                 
+					seen_patients.push(tmp["patient_id"]);
+				    
+                                    for (var key in tmp) {
+					if (key != "_id" && key != "patient_id") {
+					    vals = tmp[key];
+					            
+					    if (typeof vals != "string" && typeof vals != "number") { 
+						for (var v in vals) {
+						    //console.log(vals[v]);
+
+						    if (vals[v] in distribution) {
+							val = distribution[vals[v]];
+							val = val + 1;
+							distribution[vals[v]] = val;
+
+						    } else {
+							distribution[vals[v]] = 1;
+						    }
+						}
+
+					    }   else {
+
+						vals = vals.split('_').join('');  //some physician entries have _. We get rid of them
+						if (vals in distribution) {
+                                                    val = distribution[vals];
+                                                    val = val + 1;
+                                                    distribution[vals] = val;
+
+                                                } else {
+                                                    distribution[vals] = 1;
+                                                }
+					    }
+					}
+				    }
+				    }
+                                }
+
+				var finalDistribution = {};
+				
+				//compute the distribution for the selected query and sort the keys by descending order of counts. Needed for outputting for those keys the counts for rest of cohort
+				var countdistribution = {};
+				seen_patients = [];
+                                                                              
+                                for (i = 0; i < countfinalDocs.length; i++) {
+                                    tmp = countfinalDocs[i];
+
+				    if (seen_patients.indexOf(String(tmp["patient_id"])) == -1) {
+                                        //add the unseen patient ID to the list of seen. We only want to count on unique patients not unique records                                    
+					seen_patients.push(tmp["patient_id"]);
+
+
+                                    for (var key in tmp) {
+                                        if (key != "_id" && key != "patient_id") {
+                                            vals = tmp[key];
+
+                                            if (typeof vals != "string" && typeof vals != "number") {
+                                                for (var v in vals) {
+                                                    //console.log(vals[v]);                                                                                                                          
+
+                                                    if (vals[v] in countdistribution) {
+                                                        val = countdistribution[vals[v]];
+                                                        val = val + 1;
+                                                        countdistribution[vals[v]] = val;
+
+                                                    } else {
+                                                        countdistribution[vals[v]] = 1;
+                                                    }
+                                                }
+
+                                            }   else {
+						vals = vals.split('_').join('');  //some physician entries have _. We get rid of them                                                                
+                                                if (vals in countdistribution) {
+                                                    val = countdistribution[vals];
+                                                    val = val + 1;
+                                                    countdistribution[vals] = val;
+
+                                                } else {
+                                                    countdistribution[vals] = 1;
+                                                }
+                                            }
+                                        }
+                                    }
+				    }
+                                }
+
+						    
+
+				keysSorted = Object.keys(countdistribution).sort(function(a,b){return countdistribution[b]-countdistribution[a]});
+
+				ind = 1;
+				for (k in keysSorted) {
+
+				   
+				    if (Object.keys(distribution).indexOf(keysSorted[k]) > -1) {
+				        finalDistribution[keysSorted[k]] = distribution[keysSorted[k]];
+				    } else {
+				        finalDistribution[keysSorted[k]] = 0;
+				    }
+
+				    if (ind >= numTerms) {
+					break;
+				    }
+
+				    ind = ind + 1;
+
+				}
+
+				console.log(finalDistribution);
+				//return res.json(JSON.stringify(finalDistribution));
+				res.setHeader("Access-Control-Allow-Origin", "*");
+				res.setHeader('Content-Type', 'application/json');
+				return res.json(finalDistribution);
+                            });
+
+			});
+                    });
+
+            }
+
+'''
+
+
+
+
+
+
+
     //returns the distribution of counts in everything outside of submitted query. also takes in the number to return
     app.get("/othercountdistribution", function(req, res) {
 	    var type;
@@ -1667,6 +1880,71 @@ def countdistribution(request):
 
 	});
 
+
+'''
+
+
+def socialmedia(request):
+
+    	if (req.query.inclusion) {
+                    inclusion = req.query.inclusion;
+                } else {
+                    inclusion = "";
+                }
+
+                if (req.query.exclusion) {
+                    exclusion = req.query.exclusion;
+                } else {
+                    exclusion = "";
+                }
+
+                fields = req.query.fields;
+		// insertDocuments(db,function() {                                                                                                                                            
+		findDocuments(db, umls_db, fields, inclusion, "inclusion", "socialmedia", "false", function(docs) {
+                        console.log(docs.length);
+                        findDocuments(db, umls_db, fields, exclusion, "exclusion", "socialmedia", "false", function(docs2) {
+                                console.log(docs2.length);
+
+                                docs2_ids = [];
+                                for (i = 0; i < docs2.length; i++) {
+                                    docs2_ids[i] = String(docs2[i]._id);
+                                }
+
+				//console.log("Length of docs2_ids " + docs2_ids.length);                                                                      
+           
+				var count = 0;
+                                finalDocs = [];
+                                for (i = 0; i < docs.length; i++) {
+                                    // console.log(docs[i]._id);                                                                                                                                   
+
+                                    if (docs2_ids.indexOf(String(docs[i]._id)) > -1) {
+                                        //console.log("The above is in docs2!");                                                                                                                 
+
+                                    } else {
+                                        //console.log("The above is not in docs2!"); 
+					finalDocs[count] = docs[i];
+                                        count = count + 1;
+                                    }
+                                }
+
+
+                                //finalDocs = docs.filter(function(x) { return docs2.indexOf(x) < 0 });                                                                        
+				console.log("Final docs " + finalDocs.length);
+
+                                //we return docs - docs2                   
+				res.setHeader("Access-Control-Allow-Origin", "*");
+                                res.setHeader('Content-Type', 'application/json');
+				return res.json(finalDocs);
+                            });
+                    });
+
+            }
+        });
+
+
+
+
+'''
     app.get("/socialmedia", function(req, res) {
             var fields;
             var inclusion;
@@ -1733,6 +2011,26 @@ def countdistribution(request):
         });
 
 
+'''
+
+
+
+def ct(request):
+		ct_id = req.query.id;
+		fields = req.query.fields;
+
+		findCT(db, ct_id, fields, function(docs) {
+			res.setHeader("Access-Control-Allow-Origin", "*");
+			res.setHeader('Content-Type', 'application/json');
+			return res.json(docs);
+
+		    })
+	    }
+	
+	});
+
+
+'''
 
     //given the ct id and fields, returns the elements
     app.get("/ct", function(req, res) {
@@ -1757,6 +2055,99 @@ def countdistribution(request):
 	});
 
 
+'''
+
+
+def tablequery(request):
+		if (req.query.inclusion) {
+		    inclusion = req.query.inclusion;
+		} else {
+		    inclusion = "";
+		}
+
+		if (req.query.exclusion) {
+		    exclusion = req.query.exclusion;
+		} else {
+		    exclusion = "";
+		}
+		
+
+		if (req.query.fields == "all") {
+		    fields = "";
+
+		} else {
+		    fields = req.query.fields;
+		}
+		// insertDocuments(db,function() {
+
+		findDocuments(db, umls_db, fields, inclusion, "inclusion", req.query.collectionName, "false", function(docs) {
+			console.log(docs.length);       
+			findDocuments(db, umls_db, fields, exclusion, "exclusion", req.query.collectionName, "false", function(docs2) {
+				console.log(docs2.length);
+				
+				docs2_ids = [];
+				for (i = 0; i < docs2.length; i++) {
+				    docs2_ids[i] = String(docs2[i]._id);
+				}
+
+				//console.log("Length of docs2_ids " + docs2_ids.length);
+
+				var count = 0;
+				var finalDocs = [];
+				for (i = 0; i < docs.length; i++) {
+				    // console.log(docs[i]._id);
+				        
+				    if (docs2_ids.indexOf(String(docs[i]._id)) > -1) {
+					//console.log("The above is in docs2!");
+					//console.log("Omitting: " + String(docs[i].event_id));
+					  
+				    } else {
+					//console.log("The above is not in docs2!");
+					//console.log("Including: " + String(docs[i].event_id));
+					finalDocs[count] = docs[i];
+                                        count = count + 1;
+				    }
+				}
+
+
+				//finalDocs = docs.filter(function(x) { return docs2.indexOf(x) < 0 });
+				console.log("Final docs " + finalDocs.length);
+				var docsToSend = [];
+
+				for (i = 0; i < finalDocs.length; i++) {
+                                    tmp = finalDocs[i];
+				    var tmpOut = {};
+                                    for (var key in tmp) {
+                                        if (key != "_id") {
+                                            vals = tmp[key];
+					    console.log(vals);
+					    console.log(typeof vals)
+
+                                            if (typeof vals != "string" && typeof vals != "number") {
+						vals = vals.join(", ");
+					    }
+
+					    tmpOut[key] = vals;
+					}
+				    }
+
+				    docsToSend[i] = tmpOut;
+				}
+				    
+				//we return docs - docs2
+				res.setHeader("Access-Control-Allow-Origin", "*");
+                res.setHeader('Content-Type', 'application/json');
+				return res.json(docsToSend);
+			    });
+		    }); 
+
+	    }
+	});
+
+
+
+
+'''
     //same as query but if there is a list, makes the list a string
     app.get("/tablequery", function(req, res) {
 	    var fields;
@@ -1854,6 +2245,13 @@ def countdistribution(request):
 	});
 
 
+'''
+
+
+def getsuggestions(request):
+    
+
+'''
     //returns the suggestions for queries given the typed words
     app.get("/getsuggestions", function(req, res) {
 
