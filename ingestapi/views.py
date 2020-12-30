@@ -79,15 +79,15 @@ def addUser(request):
 		data["db"] = "viedoc"
 	else:
 		data["db"] = "clinical_studio"
-	query = { "username": request.GET["username"], "trialID": request.GET["trialID"]}
-
-	count = db.collection("users").find(query).count()
+	#query = { "username": request.GET["username"], "trialID": request.GET["trialID"]}
+    count = Users.objects.filter(username= request.GET["username"], trialID= request.GET["trialID"]).count()
+#	count = db.collection("users").find(query).count()
 
 	if (count == 0):
 		#we add 7 because we display seven in the timeline in AccelEDC
 		data["pdf_history"] = [{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}, {"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}]
 		db.collection("users").insert(data)
-
+        Users.objects.create(data)
 		return HttpResponse(status=200)
 	else:
 		return HttpResponse(status=200)
@@ -150,12 +150,9 @@ def addUser(request):
 
 @login_required()   
 def updateRole(request):
-	db.collection("users").update({"username": request.GET["username"], "trialID": request.GET["trialID"]}, { $set : {"role": request.GET["role"]}}, {"multi": true})
+	Users.objects.filter("username" =  request.GET["username"], "trialID" =  request.GET["trialID"]).update(role = request.GET["role"], multi = "true")
+#	db.collection("users").update({"username": request.GET["username"], "trialID": request.GET["trialID"]}, { $set : {"role": request.GET["role"]}}, {"multi": true})
 	return HttpResponse(status=200)    	
-
-
-
-
 
 
 '''
@@ -179,20 +176,21 @@ def updateRole(request):
 @login_required()   
 def addPDFHistory(request):
 	title = request.GET["title"]
-	title = title.split("_").join(" ");
+	title = title.split("_").join(" ")
 	time = request.GET["time"]
-	time = time.split("_").join(" ");
+	time = time.split("_").join(" ")
 	body = request.GET["body"]
-	body = body.split("_").join(" ");
+	body = body.split("_").join(" ")
 
-	pdf = {"Title": title, "Time": time, "Body": body};
+	pdf = {"Title": title, "Time": time, "Body": body}
 	username = request.GET["username"]
 	trialID = request.GET["trialID"]
-	dat = [];
-	dat.push(pdf);
+	dat = []
+	dat.push(pdf)
 
+	Users.objects.filter("username" =  request.GET["username"], "trialID" =  request.GET["trialID"]).update(pdf_history = dat)
 
-	db.collection("users").update({"username": username, "trialID": trialID}, {$push: { "pdf_history": { $each: dat }}});
+#	db.collection("users").update({"username": username, "trialID": trialID}, {$push: { "pdf_history": { $each: dat }}});
 	return HttpResponse(status=200)  
 
 
@@ -238,21 +236,18 @@ def addPDFHistory(request):
 	});
 
 '''
-
 @login_required()   
 def addEDCSubmission(request):
 	username = request.GET["username"]
 	trialID = request.GET["trialID"]
 	total_edc = request.GET["total_edc"]
 	edc_time = request.GET["edc_time"]
-	edc_time = edc_time.split("_").join(" ");
-    db.collection("users").update({"username": username, "trialID": trialID}, { $set : {"total_edc": total_edc, "edc_time": edc_time}}, {"multi": true});
+	edc_time = edc_time.split("_").join(" ")
+	Users.objects.filter("username" =  request.GET["username"], "trialID" =  request.GET["trialID"]).update("total_edc"= total_edc, "edc_time" = edc_time, "multi" = true)
+
+   # db.collection("users").update({"username": username, "trialID": trialID}, { $set : {"total_edc": total_edc, "edc_time": edc_time}}, {"multi": true});
     return HttpResponse(status=200)  			
-
 '''
-
-
-
 	app.get("/addEDCSubmission", function(req, res) {
 		if (!req.query.username || !req.query.trialID || !req.query.total_edc || !req.query.edc_time) {
 			return res.send({"status": "error", "message": "missing parameters"});
@@ -263,8 +258,6 @@ def addEDCSubmission(request):
 			var total_edc = req.query.total_edc;
 			var edc_time = req.query.edc_time;
 			edc_time = edc_time.split("_").join(" ");
-
-
 			db.collection("users").update({"username": username, "trialID": trialID}, { $set : {"total_edc": total_edc, "edc_time": edc_time}}, {"multi": true});
 			res.setHeader("Access-Control-Allow-Origin", "*");
 	    	res.setHeader('Access-Control-Allow-Methods', 'POST');
@@ -281,7 +274,7 @@ def addEDCSubmission(request):
 @login_required()      
 def getSettings(request):
 	query = { "db": request.GET["db"]}
-	fields = {"username" : 1, "trialID": 1, "role": 1};
+	fields = {"username" : 1, "trialID": 1, "role": 1}
     if (db.collection("users").find(query, fields)):
 		return HttpResponse(status=200)  
 
@@ -399,7 +392,7 @@ def insert(request):
 	    //args: ["text", "100-01", "111", req.body.emr, "\n"]
 	    args: [req.body.type, req.body.patientID, req.body.eventID, req.body.emr, req.body.delimiter, req.body.collectionName, req.body.recordType, req.body.language, req.body.languageDict]  
 	};
-	os.system('python my_file.py options')
+	os.system('python insert.py options')
     return HttpResponse(status=200)      
     
     
