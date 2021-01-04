@@ -9,7 +9,7 @@ from django.template import RequestContext
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-import math,random,string 
+import math,random,string, json
 from ingestapi.models import Users
 
 
@@ -95,7 +95,9 @@ def addUser(request):
 		data["pdf_history"] = [{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}, {"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}]
 		#db.collection("users").insert(data)
 		Users.objects.create(username= request.GET["username"], trialID=request.GET["trialID"], role=request.GET["role"], comments="vfuyvuv")
-		return HttpResponse(status=200)
+		#dump = json.dumps({'status':'200'})
+		#return HttpResponse(dump, content_type='application/json')
+		return JsonResponse({'status':'200'})
 	else:
 		return HttpResponse(status=200)
 	
