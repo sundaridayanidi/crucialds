@@ -503,3 +503,26 @@ def delete(request):
 
 '''
 
+def costing(request):
+
+	_type = request.GET["type"] + ",cost"
+	inclusion = "cost>0"
+	costing = {}
+	# findDocuments(db, umls_db, _type, inclusion, "inclusion", req.query.collectionName, "false", function(docs)		
+	for i in range(docs.length):
+		tmp = docs[i]
+		for key in tmp: 
+				if (key == "cost"):
+					cost = tmp[key]
+				elif (key != "_id"):
+					vals = tmp[key]
+					vals = String(vals).toLowerCase()			    
+				
+				if (vals in costing) :
+					val = costing[vals]
+					val = val + cost
+					costing[vals] = val
+				else:
+					costing[vals] = cost
+		return JsonResponse(costing, safe = False)
+
