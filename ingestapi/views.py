@@ -94,7 +94,7 @@ def addUser(request):
 		#we add 7 because we display seven in the timeline in AccelEDC
 		data["pdf_history"] = [{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}, {"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}]
 		#db.collection("users").insert(data)
-		Users.objects.create(id=767, username= request.GET["username"], trialID=request.GET["trialID"], role="ytrytf", comments="vfuyvuv")
+		Users.objects.create(username= request.GET["username"], trialID=request.GET["trialID"], role=request.GET["role"], comments="vfuyvuv")
 		return HttpResponse(status=200)
 	else:
 		return HttpResponse(status=200)
