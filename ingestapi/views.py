@@ -526,3 +526,110 @@ def costing(request):
 					costing[vals] = cost
 		return JsonResponse(costing, safe = False)
 
+
+'''
+
+
+    //given the type (ie physician, Professional or Occupational Group) returns the cost breakdown
+    app.get("/costing", function(req, res) {
+	    var type;
+	    var vals;
+	    var tmp;
+	    var cost;
+            
+	    if(!req.query.type || !req.query.collectionName) {
+                return res.send({"status": "error", "message": "missing parameters! [type] [collection]"});
+
+            } else {
+		type = req.query.type + ",cost";
+		inclusion = "cost>0";
+
+		costing = {};
+
+		findDocuments(db, umls_db, type, inclusion, "inclusion", req.query.collectionName, "false", function(docs) {
+			console.log(docs.length);
+
+			for (i = 0; i < docs.length; i++) {
+			    tmp = docs[i];
+			    for (var key in tmp) {
+				if (key == "cost") {
+				    cost = tmp[key];
+				} else if (key != "_id") {
+				    //vals = tmp[key].toLowerCase(); //this is a specific element for the given type
+				    vals = tmp[key];
+				    vals = String(vals).toLowerCase();
+				}
+			    }
+				
+				if (vals in costing) {
+				    val = costing[vals];
+				    val = val + cost;
+				    costing[vals] = val;
+
+				} else {
+				    costing[vals] = cost;
+				}
+
+			}
+
+
+			//return res.json(JSON.stringify(costing));
+			res.setHeader("Access-Control-Allow-Origin", "*");
+			res.setHeader('Content-Type', 'application/json');
+			return res.json(costing);
+
+		    });
+
+	    }
+    });
+'''
+
+def readmissions(request):
+	_type = "patient_id"
+	inclusion = request.GET["inclusion"]
+	collectionName = request.GET["collectionName"]
+	if (request.GET["exclusion"]):
+		exclusion = request.GET["exclusion"]
+	else:
+		exclusion = ""
+		# findDocuments(db, umls_db, type, inclusion, "inclusion", collectionName, "false", function(docs) {
+        #                 console.log(docs.length);
+        #                 findDocuments(db, umls_db, _type, exclusion, "exclusion", collectionName, "false", function(docs2) {
+        #                         console.log(docs2.length);
+	docs2_ids = []
+	for i in range(docs2.length):
+		docs2_ids[i] = String(docs2[i]._id)
+		count = 0
+		finalDocs = []
+	for i in range(docs.length):                                                                                                           
+		if (docs2_ids.indexOf(String(docs[i]._id)) > -1):
+			pass
+		else:
+			finalDocs[count] = docs[i]
+			count = count + 1
+                                			
+		readmissions = {}
+		# here we find patient IDs that occurred more than once and add to list
+		for i in range(finalDocs.length): 
+			tmp = finalDocs[i]
+			for key in tmp:
+				if (key != "_id"):
+					vals = tmp[key]
+					if (vals in readmissions):
+						val = readmissions[vals]
+						val = val + 1
+						readmissions[vals] = val
+					else:
+						readmissions[vals] = 1
+				filtered_readmissions = {}
+				count = 0
+			# here we loop through readmissions and only keep keys that have value greater than 1
+			for key in readmissions:
+				val = readmissions[key]
+
+				if (val > 1):
+					filtered_readmissions[key] = val
+
+				res.setHeader("Access-Control-Allow-Origin", "*")
+				res.setHeader('Content-Type', 'application/json')
+				return res.json(filtered_readmissions)
