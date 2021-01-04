@@ -516,7 +516,7 @@ def costing(request):
 					cost = tmp[key]
 				elif (key != "_id"):
 					vals = tmp[key]
-					vals = String(vals).toLowerCase()			    
+					vals = string(vals).toLowerCase()			    
 				
 				if (vals in costing) :
 					val = costing[vals]
