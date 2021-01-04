@@ -9,8 +9,11 @@ from django.template import RequestContext
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+import math,random,string 
+from ingestapi.models import Users
 
-@login_required()
+
+#@login_required()
 def index(request):
     context = RequestContext(request)
     records = {"Name":"Alfreds Futterkiste","City":"Berlin","Country":"Germany"}, {"Name":"Ana Trujillo Emparedados y helados","City":"México D.F.","Country":"Mexico"}, {"Name":"Antonio Moreno Taquería","City":"México D.F.","Country":"Mexico"}, {"Name":"Around the Horn","City":"London","Country":"UK"}, {"Name":"B's Beverages","City":"London","Country":"UK"}, {"Name":"Berglunds snabbköp","City":"Luleå","Country":"Sweden"}, {"Name":"Blauer See Delikatessen","City":"Mannheim","Country":"Germany"}, {"Name":"Blondel père et fils","City":"Strasbourg","Country":"France"}, {"Name":"Bólido Comidas preparadas","City":"Madrid","Country":"Spain"}, {"Name":"Bon app'","City":"Marseille","Country":"France"}, {"Name":"Bottom-Dollar Marketse","City":"Tsawassen","Country":"Canada"}, {"Name":"Cactus Comidas para llevar","City":"Buenos Aires","Country":"Argentina"}, {"Name":"Centro comercial Moctezuma","City":"México D.F.","Country":"Mexico"}, {"Name":"Chop-suey Chinese","City":"Bern","Country":"Switzerland"}, {"Name":"Comércio Mineiro","City":"São Paulo","Country":"Brazil"}
@@ -66,13 +69,16 @@ def index(request):
 
 '''
 
-@login_required()   
+#@login_required()   
 def addUser(request):
 	data = {}
 	data["username"] = request.GET["username"]
+
 	data["trialID"] = request.GET["trialID"]
+	
 	data["role"] = request.GET["role"]
-	data["password"] = Math.random().toString(36).slice(-8)
+	data["password"] = res = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 8)) 
+	print(data["password"])
 	data["total_edc"] = "0"
 	data["edc_time"] = "None"
 	if (request.GET["username"] == "henrik@viedoc.com" or request.GET["username"] == "mikael@viedoc.com"):
@@ -88,7 +94,7 @@ def addUser(request):
 		#we add 7 because we display seven in the timeline in AccelEDC
 		data["pdf_history"] = [{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}, {"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}]
 		#db.collection("users").insert(data)
-		Users.objects.create(data)
+		Users.objects.create(id=767, username= request.GET["username"], trialID=request.GET["trialID"], role="ytrytf", comments="vfuyvuv")
 		return HttpResponse(status=200)
 	else:
 		return HttpResponse(status=200)
@@ -149,7 +155,7 @@ def addUser(request):
 '''
 
 
-@login_required()   
+#@login_required()   
 def updateRole(request):
 	Users.objects.filter(username =  request.GET["username"], trialID =  request.GET["trialID"]).update(role = request.GET["role"], multi = "true")
 #	db.collection("users").update({"username": request.GET["username"], "trialID": request.GET["trialID"]}, { $set : {"role": request.GET["role"]}}, {"multi": true})
@@ -174,22 +180,22 @@ def updateRole(request):
 
 '''
 
-@login_required()   
+#@login_required()   
 def addPDFHistory(request):
 	title = request.GET["title"]
-	title = title.split("_").join(" ")
+	title = (" ").join(title.split("_"))
 	time = request.GET["time"]
-	time = time.split("_").join(" ")
+	time = (" ").join(time.split("_"))
 	body = request.GET["body"]
-	body = body.split("_").join(" ")
+	body = (" ").join(body.split("_"))
 
 	pdf = {"Title": title, "Time": time, "Body": body}
 	username = request.GET["username"]
 	trialID = request.GET["trialID"]
-	dat = []
-	dat.push(pdf)
-
-	Users.objects.filter(username =  request.GET["username"], trialID =  request.GET["trialID"]).update(pdf_history = dat)
+	#dat = []
+	#dat.push(pdf)
+	print(pdf)
+	Users.objects.filter(username =  request.GET["username"], trialID =  request.GET["trialID"]).update(pdf_history = pdf)
 
 #	db.collection("users").update({"username": username, "trialID": trialID}, {$push: { "pdf_history": { $each: dat }}});
 	return HttpResponse(status=200)  
@@ -237,14 +243,14 @@ def addPDFHistory(request):
 	});
 
 '''
-@login_required()   
+#@login_required()   
 def addEDCSubmission(request):
 	username = request.GET["username"]
 	trialID = request.GET["trialID"]
 	total_edc = request.GET["total_edc"]
 	edc_time = request.GET["edc_time"]
-	edc_time = edc_time.split("_").join(" ")
-	Users.objects.filter(username =  request.GET["username"], trialID =  request.GET["trialID"]).update(total_edc= total_edc, edc_time = edc_time, multi = true)
+	edc_time = (" ").join(edc_time.split("_"))
+	Users.objects.filter(username =  request.GET["username"], trialID =  request.GET["trialID"]).update(total_edc= total_edc, edc_time = edc_time, multi = "true")
 	# db.collection("users").update({"username": username, "trialID": trialID}, { $set : {"total_edc": total_edc, "edc_time": edc_time}}, {"multi": true});
 	return HttpResponse(status=200)  			
 '''
@@ -382,18 +388,18 @@ def getTimeline(request):
 
 
 '''
-
-@login_required()     
+import os 
+#@login_required()     
 def insert(request):
 	options = {
-	    mode: 'text',
-	    pythonPath: '//anaconda/bin/python',
-	    pythonOptions: ['-u'],
-	    scriptPath: '/Users/gangopad/Company/REST/ApysAPI',
+	    'mode': 'text',
+	    'pythonPath': '//usr/bin/python',
+	    'pythonOptions': ['-u'],
+	    'scriptPath': '/Users/gangopad/Company/REST/ApysAPI',
 	#    //args: ["text", "100-01", "111", req.body.emr, "\n"]
-	    args: [req.body.type, req.body.patientID, req.body.eventID, req.body.emr, req.body.delimiter, req.body.collectionName, req.body.recordType, req.body.language, req.body.languageDict]  
-	};
-	os.system('python insert.py options')
+	    'args': [request.GET["type"], request.GET["patientID"], request.GET["eventID"], request.GET["emr"], request.GET["delimiter"], request.GET["collectionName"], request.GET["recordType"], request.GET["language"], request.GET["languageDict"] ] 
+	}
+	os.system('python /home/rt/Downloads/dsrc/crucialds/ingestapi/IngestAPI-master/insert.py [request.GET["type"] request.GET["patientID"] request.GET["eventID"] request.GET["emr"] request.GET["delimiter"] request.GET["collectionName"] request.GET["recordType"] request.GET["language"] request.GET["languageDict"]')
 	return HttpResponse(status=200)      
     
     
@@ -441,19 +447,19 @@ def insert(request):
 '''
 
 
-@login_required()     
+#@login_required()     
 def delete(request):
 	options = {
-	    mode: 'text',
-	    pythonPath: '//anaconda/bin/python',
-	    pythonOptions: ['-u'],
-	    scriptPath: '/Users/gangopad/Company/REST/ApysAPI',
+	    'mode': 'text',
+	    'pythonPath': '//usr/bin/python',
+	    'pythonOptions': ['-u'],
+	    'scriptPath': '/Users/gangopad/Company/REST/ApysAPI',
 	#    //args: ["text", "100-01", "111", req.body.emr, "\n"]
-	    args: [req.body.type, req.body.patientID, req.body.eventID, req.body.emr, req.body.delimiter, req.body.collectionName, req.body.recordType, req.body.language, req.body.languageDict]  
-	};
-	os.system('python delete.py options')
+	    'args': [request.GET["type"], request.GET["patientID"], request.GET["eventID"], request.GET["emr"], request.GET["delimiter"], request.GET["collectionName"], request.GET["recordType"], request.GET["language"], request.GET["languageDict"] ] 
+	}
+	os.system('python /home/rt/Downloads/dsrc/crucialds/ingestapi/IngestAPI-master/delete.py [request.GET["type"] request.GET["patientID"] request.GET["eventID"] request.GET["emr"] request.GET["delimiter"] request.GET["collectionName"] request.GET["recordType"] request.GET["language"] request.GET["languageDict"]')
 	return HttpResponse(status=200)      
-
+    
 
 '''    
 

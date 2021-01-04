@@ -2,23 +2,27 @@
 
 
 import sys
-reload(sys)
-sys.setdefaultencoding("utf-8")
+#reload(sys)
+#sys.setdefaultencoding("utf-8")
 
 """
 In this script we take an input EMR and structure and store into patients.rest (rest2 for testing)
 """
+try:
+    import urllib.request as urllib2
+except ImportError:
+    import urllib2
 
-import urllib2
 from bs4 import BeautifulSoup
 import codecs
 import nltk
 import os
-from urllib import urlopen
+from urllib.request import urlopen
 import re
 from subprocess import check_output
 import subprocess
 import pickle
+
 import string
 from pymongo import MongoClient
 import datetime
@@ -818,7 +822,7 @@ def extractAdverseEvents(type_dict, emr, type, dob):
                     adverse_events.append(ae)
 
 
-    print adverse_events
+    print(adverse_events)
     return list(adverse_events)
 
 
@@ -1690,9 +1694,9 @@ def cleanText(body):
 
 
 if __name__ == '__main__':
-
+    print("len is ,", len(sys.argv))
     if len(sys.argv) < 10:
-        print "Run as python insert.py [type] [patientID] [eventID] [emr] [delimiter] [collection] [record type] [language] [languageDict]"
+       # print("Run as python insert.py ", [type] [patientID] [eventID] [emr] [delimiter] [collection] [record type] [language] [languageDict])
         sys.exit(-1)
 
 
@@ -1721,8 +1725,8 @@ if __name__ == '__main__':
     num_events = len(event_ID.split(","))
 
     #get stopwords                                                                                                                                                                              
-    with open("/Users/gangopad/Company/CysticFibrosis/CFSocialMedia/Dictionary/stopwords.pickle", "rb") as f:
-        stopwords = pickle.load(f)
+   # with open("/Users/gangopad/Company/CysticFibrosis/CFSocialMedia/Dictionary/stopwords.pickle", "rb") as f:
+    #    stopwords = pickle.load(f)
 
 
     if type == "text":

@@ -1,6 +1,6 @@
 import sys
-reload(sys)
-sys.setdefaultencoding("utf-8")
+#reload(sys)
+#sys.setdefaultencoding("utf-8")
 
 """                                                                                                                           
 In this script we take an input EMR and structure and store into patients.rest (rest2 for testing)                            
@@ -20,7 +20,7 @@ def delete(db, event_id, collectionName):
 if __name__ == '__main__':
 
     if len(sys.argv) < 3:
-        print "Run as python delete.py [eventID] [collection]"
+        #print"Run as python delete.py [eventID] [collection]"
         sys.exit(-1)
 
 
@@ -31,4 +31,4 @@ if __name__ == '__main__':
 
     count = delete(db, event_id, collectionName)
 
-    print count
+    #print count
