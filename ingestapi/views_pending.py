@@ -1900,65 +1900,43 @@ def getsuggestions(request):
 
 	});
 
-
+'''
     //returns the graph text corresponding to the keyword and emr. Once the images are loaded into the DB change this to query the DB and do the search here
-    app.get("/patientsearchtext", function(req, res) {
+    def patientsearchtext(request):
 
-	    if(!req.query.keyword || !req.query.patient_id) {
-                return res.send({"status": "error", "message": "missing parameters! [keyword] [patient id]"});
+	    if(request.GET["keyword"] or request.GET["patient_id"]):
+                return HttpResponse(status=400)  
+        else:		
+		    options = {
+	    'mode': 'text',
+	    'pythonPath': '//usr/bin/python',
+	    'pythonOptions': ['-u'],
+	    'scriptPath': '/Users/gangopad/Company/REST/ApysAPI',
+	#    //args: ["text", "100-01", "111", req.body.emr, "\n"]
+	    'args': [request.GET["keyword"], request.GET["patient_id"] ] 
+	}
+	os.system('python /home/rt/Downloads/dsrc/crucialds/ingestapi/IngestAPI-master/keyword_search.py request.GET["keyword"] request.GET["patient_id"]')
+	return HttpResponse(results)  
 
-            } else {
-		
-		var PythonShell = require('python-shell');
-
-                var options = {
-                    mode: 'text',
-                    pythonPath: '//anaconda/bin/python',
-                    pythonOptions: ['-u'],
-                    scriptPath: '/Users/gangopad/Company/REST/ApysAPI',
-                    //args: ["text", "100-01", "111", req.body.emr, "\n"]                                                                                                                                
-                    args: [req.query.keyword, req.query.patient_id]
-                };
-
-                //console.log(req.body.emr);                                                                                                                                                             
-
-                PythonShell.run('keyword_search.py', options, function (err, results) {
-                        if (err) throw err;
-                        // results is an array consisting of messages collected during execution                                                                                                         
-                        console.log('results: %j', results);
-
-			res.setHeader("Access-Control-Allow-Origin", "*");
-			res.setHeader('Content-Type', 'application/json');
-			return res.sendFile(results[1]);
-                    });
-            }
-
-	    
-	    
-
-	});
-
-
+'''
     //returns the global view given the patient ID. aggregates all the types 
-    app.get("/patientview", function(req, res) {
-	    var fields;
-	    var inclusion;
-	    var exclusion;
+ def patientview(request):
+	   
 	         
-	    if(!req.query.inclusion || !req.query.collectionName) {
-		return res.send({"status": "error", "message": "missing parameters! [inclusion] [collection]"});
+	    if(!request.GET["inclusion"] || !request.GET["collectionName"]:
+			return HttpResponse(status=400)  
 
-	    } else {
+	    else:
 		//initialize inclusion, exclusion, fields
-		if (req.query.inclusion) {
-		    inclusion = req.query.inclusion;
-		} 
+		if (request.GET["inclusion"]:
+		    inclusion = request.GET["inclusion"];
+		
 
-		if (req.query.exclusion) {
-		    exclusion = req.query.exclusion;
-		} else {
+		if (request.GET["exclusion"]):
+		    exclusion = request.GET["exclusion"]
+	    else:
 		    exclusion = "";
-		}
+		
 		
 
 		fields = "";
@@ -2056,7 +2034,8 @@ def getsuggestions(request):
 	    }
 	});
 
-    
+   '''
+
     app.get("/query", function(req, res) {
 	    var fields;
 	    var inclusion;
