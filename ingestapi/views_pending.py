@@ -3,7 +3,7 @@ def costing():
 	type = req.query.type + ",cost";
 		inclusion = "cost>0";
 
-		costing = {};
+		costing = {};query_type
 
 		findDocuments(db, umls_db, type, inclusion, "inclusion", req.query.collectionName, "false", function(docs)
 
@@ -2493,50 +2493,53 @@ var loopInclusion = function(umls_db, inclusion, query, callback) {
 
 
     }
-     
-    var findDocuments = function(db, umls_db, fields, inclusion, query_type, dbType, populate_fields_by_synonym, callback) {
+     '''
+
+
+def  findDocuments(db, umls_db, fields, inclusion, query_type, dbType, populate_fields_by_synonym):
 	// Get the documents collection
 
-	 if (dbType == "socialmedia") {
-		var collection = db.collection('ra');
-	 } else if (dbType == "viedoc") {
-		var collection = db.collection('viedoc');
-	 } else if (dbType == "clinical_studio") {
-		var collection = db.collection('clinical_studio');
-	 } else {
-	    var collection = db.collection('rest2');
+	 if (dbType == "socialmedia"):
+		collection = db.collection('ra')
+	 elif (dbType == "viedoc"):
+		collection = db.collection('viedoc')
+	 elif (dbType == "clinical_studio"):
+		collection = db.collection('clinical_studio')
+	 else:
+	    collection = db.collection('rest2')
 
-	 }	
-
+	 
+'''
 	 /*
 	 //var query = constructQuery(fields, inclusion, query_type, umls_db);
 	 constructQuery(fields, inclusion, query_type, umls_db, function(query) {
             eval(query);
 	});
 	 */
-
+'''
 	//console.log("Inclusion: " + inclusion);
 	 //we call the construct_query script in python instead since its faster and the JS method doesnt work
 	 var PythonShell = require('python-shell');
 
-	 var options = {
-	     mode: 'text',
-	     pythonPath: '//anaconda/bin/python',
-	     pythonOptions: ['-u'],
-	     scriptPath: '/Users/gangopad/Company/REST/ApysAPI',
-	     //args: ["text", "100-01", "111", req.body.emr, "\n"]                                                                                                               
-	     args: [fields, inclusion, query_type, populate_fields_by_synonym]
-	 };
+	 options = {
+	    'mode': 'text',
+	    'pythonPath': '//usr/bin/python',
+	    'pythonOptions': ['-u'],
+	    'scriptPath': '/Users/gangopad/Company/REST/ApysAPI',
+	#    //args: ["text", "100-01", "111", req.body.emr, "\n"]
+	    'args': [request.GET["fields"], request.GET["inclusion"], request.GET["query_type"], request.GET["populate_fields_by_synonym"] ] 
+	}
 
+    os.system('python /home/rt/Downloads/dsrc/crucialds/ingestapi/construct_query.py [request.GET["fields"], request.GET["inclusion"], request.GET["query_type"], request.GET["populate_fields_by_synonym"] ' )
 	 //console.log(req.body.emr);                                                                                                                                              
-	 PythonShell.run('construct_query.py', options, function (err, query) {
-		 if (err) throw err;
-		 // results is an array consisting of messages collected during execution                                                                                                  
-		 console.log('query: %j', query[0]);
-		 eval(query[0]);		 
-	});
+	# PythonShell.run('construct_query.py', options, function (err, query) {
+	#	 if (err) throw err;
+	#	 // results is an array consisting of messages collected during execution                                                                                                  
+	#	 console.log('query: %j', query[0]);
+	#	 eval(query[0]);		 
+	#});
 
-
+'''
 	/*
 	if (exclusion.length > 0) {
 	    var query = constructQuery(fields, exclusion, "docs2");
@@ -2555,7 +2558,7 @@ var loopInclusion = function(umls_db, inclusion, query, callback) {
 	    callback(docs);
 	}
 	*/
-
+'''
 	/*
 	// Find some documents
 	collection.find({"Disease or Syndrome": "obesity"}, {query}).toArray(function(err, docs) {
@@ -2569,6 +2572,4 @@ var loopInclusion = function(umls_db, inclusion, query, callback) {
     }
 
  
-module.exports = appRouter;
-'''
 
