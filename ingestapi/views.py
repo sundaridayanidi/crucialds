@@ -9,7 +9,7 @@ from django.template import RequestContext
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-import math,random,string, json
+import math,random,string 
 from ingestapi.models import Users
 
 
@@ -94,10 +94,8 @@ def addUser(request):
 		#we add 7 because we display seven in the timeline in AccelEDC
 		data["pdf_history"] = [{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}, {"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"},{"Title": "None", "Time": "None", "Body": "No PDFs uploaded yet"}]
 		#db.collection("users").insert(data)
-		Users.objects.create(username= request.GET["username"], trialID=request.GET["trialID"], role=request.GET["role"], comments="vfuyvuv")
-		#dump = json.dumps({'status':'200'})
-		#return HttpResponse(dump, content_type='application/json')
-		return JsonResponse({'status':'200'})
+		Users.objects.create(id=767, username= request.GET["username"], trialID=request.GET["trialID"], role="ytrytf", comments="vfuyvuv")
+		return HttpResponse(status=200)
 	else:
 		return HttpResponse(status=200)
 	
@@ -518,7 +516,7 @@ def costing(request):
 					cost = tmp[key]
 				elif (key != "_id"):
 					vals = tmp[key]
-					vals = string(vals).toLowerCase()			    
+					vals = String(vals).toLowerCase()			    
 				
 				if (vals in costing) :
 					val = costing[vals]
@@ -635,3 +633,217 @@ def readmissions(request):
 				res.setHeader("Access-Control-Allow-Origin", "*")
 				res.setHeader('Content-Type', 'application/json')
 				return res.json(filtered_readmissions)
+
+'''
+
+    //given query, returns all patients that have a record within 30 days
+    app.get("/readmissions", function(req, res) {
+	    var type;
+            var inclusion;
+            var exclusion;
+            var tmp;
+            var vals;
+	    var collectionName;
+
+            if(!req.query.inclusion || !req.query.collectionName) {
+                return res.send({"status": "error", "message": "missing parameters! [inclusion] [collection]"});
+
+            } else {
+
+		type = "patient_id";
+		inclusion = req.query.inclusion;
+		collectionName = req.query.collectionName;
+
+                //initialize exclusion, type
+		if (req.query.exclusion) {
+                    exclusion = req.query.exclusion;
+                } else {
+                    exclusion = "";
+                }
+
+		findDocuments(db, umls_db, type, inclusion, "inclusion", collectionName, "false", function(docs) {
+                        console.log(docs.length);
+                        findDocuments(db, umls_db, type, exclusion, "exclusion", collectionName, "false", function(docs2) {
+                                console.log(docs2.length);
+
+                                docs2_ids = [];
+                                for (i = 0; i < docs2.length; i++) {
+                                    docs2_ids[i] = String(docs2[i]._id);
+                                }
+
+                                //console.log("Length of docs2_ids " + docs2_ids.length);                                                                                
+
+                                var count = 0;
+                                finalDocs = [];
+                                for (i = 0; i < docs.length; i++) {
+                                    // console.log(docs[i]._id);                                                                                                           
+
+                                    if (docs2_ids.indexOf(String(docs[i]._id)) > -1) {
+                                        //console.log("The above is in docs2!");
+                                    } else {
+                                        //console.log("The above is not in docs2!");   
+					finalDocs[count] = docs[i];
+                                        count = count + 1;
+                                    }
+                                }
+
+				
+				readmissions = {}
+				//here we find patient IDs that occurred more than once and add to list 
+				for (i = 0; i < finalDocs.length; i++) {
+				    tmp = finalDocs[i];
+                                    for (var key in tmp) {
+                                        if (key != "_id") {
+                                            vals = tmp[key];
+
+                                            if (vals in readmissions) {
+                                                val = readmissions[vals];
+                                                val = val + 1;
+                                                readmissions[vals] = val;
+
+                                            } else {
+                                                readmissions[vals] = 1;
+                                            }
+                                            
+                                        }
+                                    }
+
+				}
+
+				filtered_readmissions = {};
+				var count = 0;
+				//here we loop through readmissions and only keep keys that have value greater than 1
+				for (var key in readmissions) {
+				    val = readmissions[key];
+
+				    if (val > 1) {
+					filtered_readmissions[key] = val;
+				    }
+				}
+
+                                //we return docs - docs2
+				res.setHeader("Access-Control-Allow-Origin", "*");
+                                res.setHeader('Content-Type', 'application/json');
+				return res.json(filtered_readmissions);
+                            });
+                    });
+
+	    }
+
+	});
+
+'''
+def  linkback(request):
+	exclusion = ""
+	inclusion = request.GET["condition"]
+	_type = ""
+	if inclusion.index("<") > -1 or inclusion.index(">") > -1:
+		temp_inclusion = inclusion.split(",")
+		
+		for element in temp_inclusion:
+			val = temp_inclusion[element]
+			
+			if val.index("<") > -1:
+				val = val.split("<")
+				_type = _type + val[0] + ","
+
+			elif val.index(">") > -1:
+				val = val.split(">")
+				_type = _type + val[0] + ","
+			
+			else:
+				_type = _type + val + ","
+				_type = _type + "event_id"
+				_type = request.GET["condition"] + ",event_id"
+
+
+		# findDocuments(db, umls_db, type, inclusion, "inclusion", req.query.collectionName, "true", function(docs) {
+        #             console.log(docs.length);
+		for i in range(docs.length):
+			tmp = docs[i]
+
+		for key in tmp:
+			if key != "event_id" and key != "_id":
+				writeTmp["Event ID"] = tmp["event_id"]
+				writeTmp["Condition"] = key
+				writeTmp["Raw text"] = tmp[key]
+				finalDocs.push(writeTmp)
+				writeTmp = {}
+
+		res.setHeader("Access-Control-Allow-Origin", "*")
+		res.setHeader('Content-Type', 'application/json')
+		return res.json(finalDocs)
+'''
+    //supports one query at a time
+    app.get("/linkback", function(req, res) {
+	    var type;
+	    var inclusion;
+	    var exclusion;
+	    var val;
+	    var event;
+	    var writeTmp = {};
+	    var finalDocs = [];
+	    
+	    if (!req.query.condition || !req.query.collectionName) {
+		return res.send({"status": "error", "message": "missing condition"});
+	    } else {
+		exclusion = "";
+		inclusion = req.query.condition;
+		type = "";
+		
+		if (inclusion.indexOf("<") > -1 || inclusion.indexOf(">") > -1) {
+		    var temp_inclusion = inclusion.split(",");
+
+		    for (var element in temp_inclusion) {
+
+			val = temp_inclusion[element];
+			
+			if (val.indexOf("<") > -1) {
+			    val = val.split("<");
+			    type = type + val[0] + ",";
+
+		       } else if (val.indexOf(">") >-1) {
+			    val = val.split(">");
+                            type = type + val[0] + ",";
+
+		        } else {
+			    type = type + val + ",";
+			}
+		    }
+		    
+		    type = type + "event_id";
+
+		} else {
+		    type = req.query.condition + ",event_id";
+		}
+
+		findDocuments(db, umls_db, type, inclusion, "inclusion", req.query.collectionName, "true", function(docs) {
+                    console.log(docs.length);
+
+
+		    for (i = 0; i < docs.length; i++) {
+			tmp = docs[i];
+
+			for (var key in tmp) {
+			    if (key != "event_id" && key != "_id") {
+				writeTmp["Event ID"] = tmp["event_id"];
+				writeTmp["Condition"] = key;
+				writeTmp["Raw text"] = tmp[key];
+				finalDocs.push(writeTmp);
+				writeTmp = {};
+
+			    } 
+			}
+		    }
+
+		    res.setHeader("Access-Control-Allow-Origin", "*");
+		    res.setHeader('Content-Type', 'application/json');
+		    return res.json(finalDocs);
+
+		});
+	    }
+
+    });
+
+'''
+
