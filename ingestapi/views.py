@@ -846,4 +846,194 @@ def  linkback(request):
     });
 
 '''
+def  distribution(request):
+                if request.GET["inclusion"]:
+                    inclusion = request.GET["inclusion"]
+                else:
+                    inclusion = ""
 
+                if request.GET["exclusion"]:
+                    exclusion = request.GET["exclusion"]
+                else:
+                    exclusion = ""
+
+                _type = request.GET["type"]
+ 
+
+		# findDocuments(db, umls_db, type, inclusion, "inclusion", req.query.collectionName, "false", function(docs) {
+        		# console.log(docs.length)
+        # findDocuments(db, umls_db, type, exclusion, "exclusion", req.query.collectionName, "false", function(docs2) {
+            # console.log(docs2.length)
+
+# docs2_ids = []
+# for i in range(docs2.length):
+# 	docs2_ids[i] = String(docs2[i]._id)  
+# 	console.log("Length of docs2_ids " + docs2_ids.length);                                                                                  
+# count = 0
+# finalDocs = []
+# for i in range(docs.length):
+# 	pass
+		
+# if (docs2_ids.index(String(docs[i]._id)) > -1):
+# 	pass                                                                                                               
+# else:
+# 	pass                                                                                           
+		
+# finalDocs[count] = docs[i]
+# count = count + 1
+
+
+#                 #                 //finalDocs = docs.filter(function(x) { return docs2.indexOf(x) < 0 });                                                                          
+# 				# console.log("Final docs " + finalDocs.length);
+
+# distribution = {}
+# # //we compute the percentage breakdown of the types by element and return the result in a JSON blob
+# for i in range(finalDocs.length):
+# 	tmp = finalDocs[i]
+					
+# for key in tmp:
+# 	if (key != "_id"):
+# 		vals = tmp[key]
+					    
+# 	if type != "string" and type != "number":
+# 		for v in vals:
+# 			# //console.log(vals[v]);
+
+# 			if vals[v] in distribution:
+# 				val = distribution[vals[v]]
+# 				val = val + 1
+# 				distribution[vals[v]] = val
+# 			else:
+# 				distribution[vals[v]] = 1
+# 				vals = vals.split('_').join('')
+# 							#  some physician entries have _. We get rid of them
+# 		if (vals in distribution):
+# 			val = distribution[vals]
+# 			val = val + 1
+# 			distribution[vals] = val
+# 		else:
+# 			distribution[vals] = 1
+# num_patients = finalDocs.length
+# finalDistribution = {}
+# 				# var total  = 0;
+
+# for i in distribution:
+# 	val = distribution[i]
+# 	val = (val * 1.0)/num_patients
+# 	distribution[i] = val
+# 	total = total + val
+		
+# 	console.log(distribution);
+# 	console.log("The sum of the percentages is " + String(total));
+
+# keysSorted = Object.keys(distribution).sort(function(a,b){return distribution[b]-distribution[a]})
+
+# ind = 1
+# for k in keysSorted:
+# 	finalDistribution[keysSorted[k]] = parseFloat(parseFloat(Math.round(distribution[keysSorted[k]] * 100) / 100).toFixed(2))
+
+	# console.log(finalDistribution)
+				
+# return res.json(JSON.stringify(finalDistribution))
+# res.setHeader("Access-Control-Allow-Origin", "*")
+# res.setHeader('Content-Type', 'application/json')
+# return res.json(finalDistribution)
+
+
+
+# def countdistribution(request):
+	
+# 	if (request.GET["inclusion"]):
+# 		inclusion = request.GET["inclusion"]
+# 	else:
+# 		inclusion = "";
+# 	if request.GET["exclusion"]:
+# 		exclusion = request.GET["exclusion"]
+		
+# 	else:
+# 		exclusion = "";
+
+	# _type = request.GET["type"] + String(",patient_id")
+	# numTerms = parseInt(request.GET["num"] )	
+
+		# findDocuments(db, umls_db, type, inclusion, "inclusion", req.query.collectionName, "false", function(docs) {
+        #                 console.log(docs.length);
+        #                 findDocuments(db, umls_db, type, exclusion, "exclusion", req.query.collectionName, "false", function(docs2) {
+        #                         console.log(docs2.length);
+
+# docs2_ids = [];
+# for i in range(docs2.length):
+# 	docs2_ids[i] = String(docs2[i]._id)
+                                                                                  
+# count = 0
+# finalDocs = []
+# for i in range(docs.length):
+# 	pass
+   
+# 	if (docs2_ids.index(String(docs[i]._id)) > -1):
+# 		console.log("The above is in docs2!")
+# 	else:                                                                               
+# 		finalDocs[count] = docs[i]
+		# count = count + 1
+                        
+	# finalDocs = docs.filter(function(x) { return docs2.indexOf(x) < 0 });                                                                          
+	# console.log("Final docs " + finalDocs.length)
+
+	# distribution = {}
+	# seen_patients = []
+    # we compute the percentage breakdown of the types by element and return the result in a JSON blob
+	# for i in range(finalDocs.length):
+	# 	tmp = finalDocs[i]
+
+	# console.log(tmp["patient_id"])
+	# console.log(seen_patients.indexOf(String(tmp["patient_id"])));
+				   
+	# if (seen_patients.index(String(tmp["patient_id"])) == -1):
+					# add the unseen patient ID to the list of seen. We only want to count on unique patients not unique records
+					# seen_patients.push(tmp["patient_id"])
+
+# for key in tmp:
+# 		if (key != "_id" and key != "patient_id"):
+# 			vals = tmp[key]
+					
+# 		if (type != "string" and type != "number"):
+# 			for v in vals:
+# 				console.log(vals[v])
+
+# 				if (vals[v] in distribution):
+# 					val = distribution[vals[v]]
+# 					val = val + 1
+# 					distribution[vals[v]] = val
+# 				else:
+# 					distribution[vals[v]] = 1
+# 					# some physician entries have _. We get rid of them
+# 					vals = vals.split('_').join('');  
+						
+# 				if (vals in distribution):
+# 					val = distribution[vals]
+# 					val = val + 1
+# 					distribution[vals] = val
+# 				else:
+# 					distribution[vals] = 1
+                                            
+
+				# here we do the same as above for the qualified incl/excl criteria
+				
+
+# finalDistribution = {}
+
+				
+				# //console.log(distribution);
+
+				# keysSorted = Object.keys(distribution).sort(function(a,b){return distribution[b]-distribution[a]})
+
+# ind = 1
+# for k in keysSorted:
+# 	finalDistribution[keysSorted[k]] = distribution[keysSorted[k]]
+# 	if (ind >= numTerms):
+# 		break
+# 	ind = ind + 1
+
+# res.setHeader("Access-Control-Allow-Origin", "*")
+# res.setHeader('Content-Type', 'application/json')
+# res.json(finalDistribution)				
