@@ -1684,3 +1684,80 @@ def  distribution(request):
             }
         });
 '''
+
+def ct(request):
+		ct_id = request.GET["id"]
+		fields = request.GET["fields"]
+
+		findCT(db, ct_id, fields, function(docs)
+			res.setHeader("Access-Control-Allow-Origin", "*")
+			res.setHeader('Content-Type', 'application/json')
+			return res.json(docs))
+
+
+
+# def tablequery(request):
+# 		if request.GET["inclusion"]
+# 		    inclusion = request.GET["inclusion"]
+# 		    inclusion = ""
+
+# 		if request.GET["exclusion"]
+# 		    exclusion = request.GET["exclusion"]
+# 		else
+# 		    exclusion = ""
+		
+# 		if (request.GET["fields"] == "all") {
+# 		    fields = "";
+
+# 		else
+# 		    fields = request.GET["fields"]
+		
+# 		# insertDocuments(db,function() {
+
+# 		# findDocuments(db, umls_db, fields, inclusion, "inclusion", req.query.collectionName, "false", function(docs) {
+# 		# 	console.log(docs.length)     
+# 		# 	findDocuments(db, umls_db, fields, exclusion, "exclusion", req.query.collectionName, "false", function(docs2) {
+# 		# 		console.log(docs2.length)
+				
+# docs2_ids = []
+# for i in range(docs2.length):
+# 	docs2_ids[i] = String(docs2[i]._id)
+
+# # console.log("Length of docs2_ids " + docs2_ids.length)
+
+# 	var count = 0
+# 	var finalDocs = []
+# 	for i in range(docs.length):
+# 	#console.log(docs[i]._id)
+				        
+# 	if (docs2_ids.indexOf(String(docs[i]._id)) > -1):
+# 	# console.log("The above is in docs2!")
+# 	# console.log("Omitting: " + String(docs[i].event_id))				  
+# 	else:
+# 	# console.log("The above is not in docs2!")
+# 	# console.log("Including: " + String(docs[i].event_id))
+# 		finalDocs[count] = docs[i]
+#         count = count + 1
+# 		# finalDocs = docs.filter(function(x) { return docs2.indexOf(x) < 0 })
+# 				console.log("Final docs " + finalDocs.length)
+# 				var docsToSend = []
+
+# 				for i in range(finalDocs.length):
+#                         tmp = finalDocs[i]
+# 				    # var tmpOut = {}
+#                     for (var key in tmp):
+#                         if (key != "_id"):
+#                             vals = tmp[key]
+# 					    # console.log(vals)
+# 					    # console.log(typeof vals)
+
+#                 if (type vals != "string" and type vals != "number"):
+# 						vals = vals.join(", ")
+# 					    tmpOut[key] = vals
+
+# 				    docsToSend[i] = tmpOut
+				    
+# 				# we return docs - docs2
+# 				res.setHeader("Access-Control-Allow-Origin", "*")
+#                res.setHeader('Content-Type', 'application/json')
+# 				return res.json(docsToSend)
