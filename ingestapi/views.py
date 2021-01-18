@@ -1685,16 +1685,15 @@ def  distribution(request):
         });
 '''
 
-def ct(request):
-		ct_id = request.GET["id"]
-		fields = request.GET["fields"]
+# def ct(request):
+# 		ct_id = request.GET["id"]
+# 		fields = request.GET["fields"]
 
-		findCT(db, ct_id, fields, function(docs)
-			res.setHeader("Access-Control-Allow-Origin", "*")
-			res.setHeader('Content-Type', 'application/json')
-			return res.json(docs))
+# 		findCT(db, ct_id, fields, function(docs)
 
-
+	# res.setHeader("Access-Control-Allow-Origin", "*")
+	# res.setHeader('Content-Type', 'application/json')
+	# return res.json(docs))
 
 # def tablequery(request):
 # 		if request.GET["inclusion"]
@@ -1706,7 +1705,7 @@ def ct(request):
 # 		else
 # 		    exclusion = ""
 		
-# 		if (request.GET["fields"] == "all") {
+# 		if (request.GET["fields"] == "all"):
 # 		    fields = "";
 
 # 		else
@@ -1742,22 +1741,22 @@ def ct(request):
 # 				console.log("Final docs " + finalDocs.length)
 # 				var docsToSend = []
 
-# 				for i in range(finalDocs.length):
-#                         tmp = finalDocs[i]
-# 				    # var tmpOut = {}
-#                     for (var key in tmp):
-#                         if (key != "_id"):
-#                             vals = tmp[key]
-# 					    # console.log(vals)
-# 					    # console.log(typeof vals)
+# for i in range(finalDocs.length):
+# tmp = finalDocs[i]
+## var tmpOut = {}
+#for (var key in tmp):
+#	if (key != "_id"):
+#   	vals = tmp[key]
+# # console.log(vals)
+# console.log(typeof vals)
 
-#                 if (type vals != "string" and type vals != "number"):
-# 						vals = vals.join(", ")
-# 					    tmpOut[key] = vals
+# if (type vals != "string" and type vals != "number"):
+# vals = vals.join(", ")
+# tmpOut[key] = vals
 
-# 				    docsToSend[i] = tmpOut
+#docsToSend[i] = tmpOut
 				    
 # 				# we return docs - docs2
-# 				res.setHeader("Access-Control-Allow-Origin", "*")
-#                res.setHeader('Content-Type', 'application/json')
-# 				return res.json(docsToSend)
+# res.setHeader("Access-Control-Allow-Origin", "*")
+# res.setHeader('Content-Type', 'application/json')
+# return res.json(docsToSend)
