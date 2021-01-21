@@ -1760,3 +1760,62 @@ def  distribution(request):
 # res.setHeader("Access-Control-Allow-Origin", "*")
 # res.setHeader('Content-Type', 'application/json')
 # return res.json(docsToSend)
+
+# def getsuggestions(request):
+	
+# 	if(request.GET["typed"]:
+#         return res.send("status": "error", "message": "missing parameters! [typed]")
+# 	else:
+#         var PythonShell = require('python-shell')
+#         mode: 'text',
+#         pythonPath: '//anaconda/bin/python'
+#         pythonOptions: ['-u']
+#         scriptPath: '/Users/gangopad/Company/REST/ApysAPI',
+#         //args: ["text", "100-01", "111", req.body.emr, "\n"]                                                                                                                           
+# 		args: request.GET["typed"]
+# 		# console.log(req.body.emr); 
+
+# 		PythonShell.run('convert_input.py', options, function (err, results)
+#     	if (err) throw err:
+#     	# results is an array consisting of messages collected during execution                                                                                                                                                                                                                        
+#         console.log('results: %j', results)
+
+#     	res.setHeader("Access-Control-Allow-Origin", "*")
+#         res.setHeader('Content-Type', 'application/json')
+#         return res.json(results[0])
+
+'''
+    //returns the suggestions for queries given the typed words
+    app.get("/getsuggestions", function(req, res) {
+
+            if(!req.query.typed) {
+                return res.send({"status": "error", "message": "missing parameters! [typed]"});
+
+            } else {
+
+                var PythonShell = require('python-shell');
+
+                var options = {
+                    mode: 'text',
+                    pythonPath: '//anaconda/bin/python',
+                    pythonOptions: ['-u'],
+                    scriptPath: '/Users/gangopad/Company/REST/ApysAPI',
+                    //args: ["text", "100-01", "111", req.body.emr, "\n"]                                                                                                                           
+		    args: [req.query.typed]
+                };
+
+                //console.log(req.body.emr); 
+
+		PythonShell.run('convert_input.py', options, function (err, results) {
+                        if (err) throw err;
+                        // results is an array consisting of messages collected during execution                                                                                                                                                                                                                        
+                        console.log('results: %j', results);
+
+                        res.setHeader("Access-Control-Allow-Origin", "*");
+                        res.setHeader('Content-Type', 'application/json');
+                        return res.json(results[0]);
+                    });
+            }
+        });
+'''
+
